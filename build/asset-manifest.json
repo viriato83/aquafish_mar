@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/viriato83/Manegement/static/css/main.6da9bd89.css",
+    "main.js": "/viriato83/Manegement/static/js/main.3b3f6ef1.js",
+    "static/js/488.1d4ce58e.chunk.js": "/viriato83/Manegement/static/js/488.1d4ce58e.chunk.js",
+    "index.html": "/viriato83/Manegement/index.html",
+    "main.6da9bd89.css.map": "/viriato83/Manegement/static/css/main.6da9bd89.css.map",
+    "main.3b3f6ef1.js.map": "/viriato83/Manegement/static/js/main.3b3f6ef1.js.map",
+    "488.1d4ce58e.chunk.js.map": "/viriato83/Manegement/static/js/488.1d4ce58e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6da9bd89.css",
+    "static/js/main.3b3f6ef1.js"
+  ]
+}
