@@ -21,7 +21,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://github.com/viriato83/Manegement ",
+  "homepage": "https://github.com/viriato83/Manegement",
   "eslintConfig": {
     "extends": [
       "react-app",
