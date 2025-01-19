@@ -1,4 +1,5 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, HashRouter } from "react-router-dom";
+
 
 import Dashboard from "./pages/Dashboard";
 import Clientes from "./pages/servicos/Clientes/Clientes";
@@ -14,7 +15,8 @@ import MortalidadeView from "./pages/servicos/Mortalidades/mortalidadeView";
 
 export default function AppRouter() {
     return (
-        <HashRouter>
+    
+          <HashRouter>
             <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/registar-clientes/:id" element={<Clientes />} />
