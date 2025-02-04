@@ -4,7 +4,7 @@ export default class  repositorioMercadoria{
 
 
     constructor(){
-        this.endpoint ="http://localhost:8080/aquafish/mercadoria"
+        this.endpoint ="http://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/mercadoria"
         this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       

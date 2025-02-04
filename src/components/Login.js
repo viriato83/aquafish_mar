@@ -8,7 +8,7 @@ export default function Login({ children }) {
     sessionStorage.getItem("ligado") === "true"
   );
 
-  const endpointSpring = "http://localhost:8080/aquafish/login";
+  const endpointSpring = "http://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/login";
 
   const handleLogin = async () => {
     try {

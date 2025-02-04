@@ -4,7 +4,7 @@ export default class ClienteRepository{
      
 
     constructor(){
-        this.endpoint ="http://localhost:8080/aquafish/clientes"
+        this.endpoint ="http://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/clientes"
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
       

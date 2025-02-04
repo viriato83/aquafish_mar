@@ -6,7 +6,7 @@ export default class repositorioStock{
 
 
     constructor(){
-        this.endpoint ="http://localhost:8080/aquafish/stock"
+        this.endpoint ="http://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/stock"
         this.mensagem= new mensagem()
         this.token=sessionStorage.getItem("token");
   
