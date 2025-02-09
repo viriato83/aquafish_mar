@@ -5,7 +5,7 @@ export class repositorioMortalidade{
 
 
     constructor(){
-        this.endpoint ="https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/mortalidade"
+        this.endpoint ="https://api.mozsystems.com/aquafish/mortalidade"
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
        

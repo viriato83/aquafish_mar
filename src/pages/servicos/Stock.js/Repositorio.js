@@ -6,7 +6,7 @@ export default class repositorioStock{
 
 
     constructor(){
-        this.endpoint ="https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/stock"
+        this.endpoint ="https://api.mozsystems.com/aquafish/stock"
         this.mensagem= new mensagem()
         this.token=sessionStorage.getItem("token");
   

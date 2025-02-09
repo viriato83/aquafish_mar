@@ -9,7 +9,7 @@ export default function Login({ children }) {
   );
 
 
-  const endpointSpring = "https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/login";
+  const endpointSpring = "https://api.mozsystems.com/aquafish/login";
   const handleLogin = async () => {
     try {
       const response = await fetch(endpointSpring, {

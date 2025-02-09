@@ -4,7 +4,7 @@ export class repositorioVenda{
 
    
     constructor(){
-      this.endpoint ="https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/vendas"
+      this.endpoint ="https://api.mozsystems.com/aquafish/vendas"
       this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
     
