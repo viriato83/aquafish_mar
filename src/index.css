@@ -1,17 +1,24 @@
-Reseta e formatação básica
+
 * {
+  /* width: 100vw; */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
-
+a:focus-visible {
+  outline: 2px solid var(--primary-color);
+}
 body {
+
+  min-height: 100vh;
+
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
   font-family: 'Roboto', sans-serif;
-  background-color: #f4f4f4;
+  background-color: #5a3b3b;
   color: #333;
   transition: background-color 0.3s ease, color 0.3s ease;
-
 }
 
 header {
@@ -30,6 +37,7 @@ header {
   justify-content: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 header:hover {
@@ -38,20 +46,37 @@ header:hover {
 
 .container {
   display: flex;
-
+  background-color: #005f79;
+  justify-content: flex-start; 
+  padding: 0;
   min-height: 100vh;
-
+  
 
 }
+/* Sidebar *//* Sidebar */
+.sidebar.mobile-open {
+  transform: translateX(0);
+}
 
-/* Sidebar */
+.hamburger-menu {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Estilo para telas menores */
+
+
 .sidebar {
-
   width: 240px;
   background-color: #2b3a42;
   padding: 20px;
   position: sticky;
-  /* height: 100%; */
+  top: 0;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
@@ -72,46 +97,43 @@ header:hover {
   display: block;
   padding: 12px;
   border-radius: 8px;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s, padding-left 0.3s ease;
 }
 
 .sidebar ul li a:hover {
   background-color: #1371b4;
   transform: translateX(5px);
-}/* Estilo base para os submenus */
+  padding-left: 20px; /* Adiciona um efeito de recuo suave */
+}
+
+
+
 .submenu {
-  max-height: 0; /* Esconde o submenu por padrão */
-  overflow: hidden; /* Garante que o conteúdo oculto não seja visível */
+  max-height: 0;
+  overflow: hidden;
   list-style: none;
   padding-left: 20px;
   margin-left: 15px;
-  transition: max-height 0.3s ease, opacity 0.3s ease; /* Adiciona transições */
-  opacity: 0; /* Inicialmente invisível */
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
 }
 
-/* Classe para mostrar o submenu */
 .submenu.show {
-  max-height: 300px; /* Altura máxima suficiente para mostrar o conteúdo */
-  opacity: 1; /* Torna o submenu visível */
+  max-height: 300px;
+  opacity: 1;
 }
 
-/* Estilo opcional para o link principal */
 .toggle-menu {
   cursor: pointer;
   display: inline-block;
   padding: 10px;
   text-decoration: none;
   color: #333;
-  transition: color 0.2s ease; /* Transição de cor ao passar o mouse */
+  transition: color 0.2s ease;
 }
 
 .toggle-menu:hover {
-  color: #52d6a4; /* Muda a cor ao passar o mouse */
-}
-
-
-.submenu.show {
-  display: block;
+  color: #52d6a4;
 }
 
 @keyframes slideDown {
@@ -136,13 +158,12 @@ header:hover {
   }
 }
 
-/* Use essas animações na classe de submenu */
 .submenu {
-  animation: slideUp 0.3s ease forwards; /* Inicialmente escondido */
+  animation: slideUp 0.3s ease forwards;
 }
 
 .submenu.show {
-  animation: slideDown 0.3s ease forwards; /* Animação ao aparecer */
+  animation: slideDown 0.3s ease forwards;
 }
 
 .submenu li a:hover {
@@ -157,7 +178,6 @@ main {
 }
 
 .content {
-
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -167,14 +187,8 @@ main {
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
 }
 
-/* .content:hover {
-  transform: scale(1.02);
-} */
-
-/* Footer */
 footer {
   background-color: #131a1d;
   color: white;
@@ -185,7 +199,7 @@ footer {
   width: 100%;
 }
 
-/* Formulario Cadastro */
+/* Formulário Cadastro */
 .Cadastro {
   display: flex;
   flex-direction: column;
@@ -233,15 +247,19 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: auto;
+  
+
 }
 
 .tabela table {
   width: 100%;
-  max-width: 1200px;
+  max-width: 450px;
   margin: 20px 0;
   border-collapse: collapse;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .tabela th, .tabela td {
@@ -253,7 +271,7 @@ footer {
 }
 
 .tabela th {
-  background-color:#1371b4;
+  background-color: #1371b4;
   color: #fff;
   font-weight: bold;
 }
@@ -266,7 +284,6 @@ footer {
   background-color: rgba(0, 128, 128, 0.1);
 }
 
-/* Botões da Tabela */
 .tabela button {
   padding: 8px 16px;
   border: none;
@@ -291,9 +308,9 @@ footer {
   background-color: #229954;
 }
 
-/* Modal */.modal {
-
-  position: fixed; 
+/* Modal */
+.modal {
+  position: fixed;
   top: 50%;
   left: 58%;
   transform: translate(-50%, -50%);
@@ -308,20 +325,19 @@ footer {
   justify-content: center;
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-
-  transition: opacity 0.3s ease
+  transition: opacity 0.3s ease;
 }
 
 .modal p {
   text-align: center;
-  margin-bottom: 20px; /* Dá um espaçamento entre o texto e os botões */
+  margin-bottom: 20px;
   font-size: 16px;
 }
 
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Espaço entre os botões */
+  gap: 10px;
 }
 
 .modal button {
@@ -339,51 +355,52 @@ footer {
 }
 
 .sim:hover, .nao:hover {
-  opacity: 0.8; /* Adiciona um efeito hover nos botões */
-}  
-.mensagem{
+  opacity: 0.8;
+}
 
-      text-align: center;
-      background-color: rgba(0, 128, 0, 0.8); /* Cor com maior contraste */
-      color: white;
-      width: 350px;
-      max-width: 400px; /* Limite de largura em telas maiores */
-      padding: 10px;
-      position: absolute;
-      left: 59%;
-      top:25%;
-      transform: translateX(-50%);
-      transition: opacity 0.5s ease, top 0.5s ease; /* Transição suave */
-      border-radius: 8px;
-      display: none;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-   }
-  
-   option{
-      background-color: #ffffff;
-      transition: 3000ms;
-   }
-   select{
-      background-color: #ffffff;
-      padding: 5px;
-      border-radius: 5%;
-      border: none;
-      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-      transition: 300ms;
-      margin-bottom: 7px;
-      display: flex;
-   }
+/* Mensagem */
+.mensagem {
+  text-align: center;
+  background-color: rgba(0, 128, 0, 0.8);
+  color: white;
+  width: 350px;
+  max-width: 400px;
+  padding: 10px;
+  position: absolute;
+  left: 59%;
+  top: 25%;
+  transform: translateX(-50%);
+  transition: opacity 0.5s ease, top 0.5s ease;
+  border-radius: 8px;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-   .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      width: 100%;
-      padding: 20px;
-      margin-bottom: 30px;
-  }
-  
+option {
+  background-color: #ffffff;
+  transition: 3000ms;
+}
+
+select {
+  background-color: #ffffff;
+  padding: 5px;
+  border-radius: 5%;
+  border: none;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: 300ms;
+  margin-bottom: 7px;
+  display: flex;
+}
+
+/* Dashboard */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
   .card {
       background-color: #3498db;
       color: white;
@@ -392,6 +409,7 @@ footer {
       text-align: center;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease-in-out;
+      box-shadow:1px 1px 1px black ;
   }
   
   .card:hover {
@@ -430,7 +448,7 @@ footer {
       position: absolute;
       left: 90%;
       /* top:10%; */
-      background-color: #e36363;
+      background-color: transparent;
       padding: 8px 20px;
       border: none;
       color: white;
@@ -440,6 +458,7 @@ footer {
   .sair:active{
     opacity: 0.8;
   }
+  
 .usuario{
   position: absolute;
 
@@ -455,12 +474,17 @@ footer {
   background-color: #f4f4f4;
   width: 100%;
   height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   font-family: Arial, sans-serif;
 }
+
 
 /* Cabeçalho */
 .login-header {
@@ -477,13 +501,14 @@ footer {
 
 /* Corpo do formulário */
 .login-body {
-  padding: 20px;
+  padding: 25px;
   background-color: #ffffff;
-  border-radius: 0 0 5px 5px;
-  width: 340px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 360px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   animation: fadeIn 0.5s ease-in-out;
 }
+
 
 /* Animação para o formulário */
 @keyframes fadeIn {
@@ -520,10 +545,10 @@ footer {
 }
 
 .login-input-group input:focus {
-  background-color: #22628d;
   background-color: #ffffff;
   box-shadow: 0 0 5px rgba(0, 121, 107, 0.5);
   outline: none;
+  border: 1px solid #22628d;
 }
 
 /* Botão de login */
@@ -571,20 +596,167 @@ footer {
     transform: scale(1);
   }
 }
+/* Ajustes para o gráfico */
 .chart-container {
-  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto; /* Centraliza o gráfico */
   padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 canvas {
-  width: 100%;
-  height: 400px;
+  width: 100% !important;
+  height: 400px !important;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+/* Logo da seção de login */
 .login-logo img {
   width: 250px;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsividade */
+/* @media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    height: 100vh;
+    overflow-y: auto;
+    left: -100%;
+    transition: left 0.3s ease-in-out;
+  }
+  .sidebar.active {
+    left: 0;
+  }
+
+} */
+.loading-spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 7%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loading-spinner {
+  font-size: 24px;
+  color: #ffffff;
+  background: #007bff;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+
+@media (max-width: 480px) {
+  .loading-spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  header {
+    font-size: 5px;
+    z-index: 2;
+  }
+  footer{
+  
+    z-index: 2;
+  }
+  header .sair{
+    position: absolute;
+    left: 82%;
+    padding: 7px 8px ;
+    top: 60px;
+
+  }
+  header .usuario{
+    font-size: 10px;
+    position: absolute;
+
+    left: 82%;
+    top:10px;
+    border-radius: 100%;
+    padding: 10px;
+    background-color: #005f79;
+  }
+
+  .sidebar {
+    width: 100%;  /* Faz a sidebar ocupar 100% da tela em dispositivos móveis */
+    position: fixed;
+    height: 100vh;
+    top: 90px;
+    left: 100%;  /* Inicialmente esconde a sidebar */
+    transition: right 0.7s ease;  /* Transição para aparecer */
+    z-index: 1;
+    max-width: 300px;
+  }
+
+  .sidebar.active {
+    left: 0;  /* Torna a sidebar visível quando ativa */
+  }
+
+  .sidebar ul li a {
+    padding: 10px 20px;  /* Ajusta o padding */
+    font-size: 14px;  /* Ajusta o tamanho da fonte */
+  }
+
+  /* Adiciona um botão de menu (hamburguer) para abrir a sidebar */
+  .hamburger-menu {
+    display: block;
+    background: transparent;
+    border: none;
+    
+    font-size: 28px;
+    color: #fff;
+    padding: 8px;
+    cursor: pointer;
+    position: absolute;
+    top: 26px;
+    left: 15px;
+    z-index: 1000;
+    width: auto; /* Remove largura fixa */
+    height: auto; /* Remove altura fixa */
+  }
+  
+  .hamburger-menu.open {
+    transform: rotate(90deg); /* Efeito de rotação */
+    backdrop-filter: blur(3px); /* Desfoque elegante */
+    transition: transform 0.3s ease, backdrop-filter 0.3s ease; /* Transições suaves */
+  }
+  
+  .content .tabela table {
+    width: 100%;
+    max-width: 450px;
+    margin: 20px 0;
+    
+
+  }
+  .content{
+    font-size: 10px;
+  }
+
+ .mensagem{
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    transform: translateX(-50%);
+    transition: opacity 0.5s ease, top 0.5s ease;
+    border-radius: 8px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+ 
+  
 }

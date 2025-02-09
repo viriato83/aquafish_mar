@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import logo from "../logo_white-removebg2.png"
 export default function Login({ children }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -7,6 +7,7 @@ export default function Login({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("ligado") === "true"
   );
+
 
   const endpointSpring = "https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/login";
   const handleLogin = async () => {
@@ -19,11 +20,12 @@ export default function Login({ children }) {
 
       if (response.status === 200) {
         const data = await response.json();
-        const { token, idusuarios } = data;
+        const { token, idusuarios,cargo } = data;
 
         sessionStorage.setItem("idusuarios", idusuarios);
         sessionStorage.setItem("login", username);
         sessionStorage.setItem("token", token);
+        sessionStorage.setItem("cargo", cargo);
         sessionStorage.setItem("ligado", "true");
 
         setIsLoggedIn(true); // Atualiza o estado para indicar login bem-sucedido
@@ -43,7 +45,7 @@ export default function Login({ children }) {
   return (
     <section className="login-section">
         <div className="login-logo">
-            <img src="logo_white-removebg2.png" alt="Logo Aquafish" />
+            <img src={logo} alt="Logo Aquafish" />
             
            
   
@@ -51,6 +53,7 @@ export default function Login({ children }) {
     
       <div className="login-header">Login</div>
       <div className="login-body">
+     
         <div className="login-input-group">
           <label htmlFor="username">Username:</label>
           <input

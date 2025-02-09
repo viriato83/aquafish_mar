@@ -11,9 +11,12 @@ import Modal from "../../../components/modal";
 import modal from "../../../components/modal";
 import mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
+import Loading from "../../../components/loading";
 
 export default function ClientesView() {
   const repositorio = new ClienteRepository();
+  
+  const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // Estado para o ID digitado
@@ -24,6 +27,7 @@ export default function ClientesView() {
   useEffect(()=>{
    
     async function carregarDados() {
+      setLoading(true);
       try {
         const dadosModelo = await repositorio.leitura();
         const dadosTotal = await repositorio.total();
@@ -32,6 +36,8 @@ export default function ClientesView() {
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
+      }finally{
+        setLoading(false);
       }
     }
     carregarDados();
@@ -41,6 +47,7 @@ export default function ClientesView() {
 
   return (
     <>
+    {loading && <Loading></Loading>}
       <Header />
       <Conteinner>
         <Slider />

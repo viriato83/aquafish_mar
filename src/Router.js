@@ -13,6 +13,8 @@ import RegistarMortalidade from "./pages/servicos/Mortalidades/registMortalidade
 import MortalidadeView from "./pages/servicos/Mortalidades/mortalidadeView";
 
 export default function AppRouter() {
+  
+  
   return (
     <Router>
       <Routes>

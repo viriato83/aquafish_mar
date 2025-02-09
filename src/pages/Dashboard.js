@@ -9,6 +9,7 @@ import ClienteRepository from "./servicos/Clientes/ClienteRepository";
 import repositorioMercadoria from "./servicos/Mercadorias/Repositorio";
 import repositorioStock from "./servicos/Stock.js/Repositorio";
 import { repositorioVenda } from "./servicos/vendas/vendasRepositorio";
+import Loading from "../components/loading";
 
 // Função para agrupar dados por período
 function agruparPorPeriodo(dados, periodo = "dia") {
@@ -51,34 +52,47 @@ export default function Dashboard() {
   const [saida, setSaida] = useState(0);
   const [useVenda, setVenda] = useState([]);
   const [useData, setData] = useState([]);
-
+  const [loading, setLoading] = useState(false); // Estado para exibir o loading
+  const buscarCargo=()=>{
+      
+    return sessionStorage.getItem("cargo")
+  }
   useEffect(() => {
     let contador1 = 0;
     let contador2 = 0;
 
     async function card() {
-      let cards2 = [
-        await clientes.total(),
-        await mercadoria.total(),
-        await stok.total(),
-        await vendas.total(),
-      ];
-      setCard(cards2);
+      setLoading(true)
+       try{       
+            let cards2 = [
+              await clientes.total(),
+              await mercadoria.total(),
+              await stok.total(),
+              await vendas.total(),
+            ];
+            setCard(cards2);
 
-      let mercadorias = await mercadoria.leitura();
-      mercadorias.forEach((e) => {
-        if (e.tipo.toLowerCase() === "entrada") {
-          contador1+=e.quantidade
-        }
-          contador2+=e.q_saidas
-   
-        if (e.tipo.toLowerCase() === "saida") {
-          contador2+=e.quantidade
-        }
-      });
+            let mercadorias = await mercadoria.leitura();
+            mercadorias.forEach((e) => {
+              if (e.tipo.toLowerCase() === "entrada") {
+                contador1+=e.quantidade
+              }
+                contador2+=e.q_saidas
+        
+              if (e.tipo.toLowerCase() === "saida") {
+                contador2+=e.quantidade
+              }
+            });
 
-      setEntradada(contador1);
-      setSaida(contador2);
+            setEntradada(contador1);
+            setSaida(contador2);
+          }
+          catch(error){
+            console.error(error)
+          }
+          finally{
+            setLoading(false)
+          }
     }
 
     async function setGrafico() {
@@ -145,6 +159,7 @@ export default function Dashboard() {
   
     return (
         <>
+        {loading &&<Loading></Loading>}
           <Header></Header>
           <Conteinner>
             <Sidebar></Sidebar>
@@ -158,22 +173,26 @@ export default function Dashboard() {
             <h3>Total Vendas</h3>
             <p id="totalSales">{cards[3]}</p>
         </div>
-        <div className="card total-goods">
-            <h3>Total Mercadorias</h3>
-            <p id="totalGoods">{cards[1]}</p>
-        </div>
-        <div className="card total-stock">
-            <h3>Total Stock</h3>
-            <p id="totalStock">{cards[2]}</p>
-        </div>
-        <div className="card total-stock">
-            <h3>Total Saidas</h3>
-            <p id="totalsaida">{saida}</p>
-        </div>
-        <div className="card total-stock">
-            <h3>Total Entradas</h3>
-            <p id="totalentrada">{entrada}</p>
-        </div>
+        {buscarCargo() === "admin" || buscarCargo() === "informatico" && (
+          <>
+            <div className="card total-goods">
+                <h3>Total Mercadorias</h3>
+                <p id="totalGoods">{cards[1]}</p>
+            </div>
+            <div className="card total-stock">
+                <h3>Total Stock</h3>
+                <p id="totalStock">{cards[2]}</p>
+            </div>
+            <div className="card total-stock">
+                <h3>Total Entradas</h3>
+                <p id="totalentrada">{entrada}</p>
+            </div>
+            </>
+        )}
+            <div className="card total-stock">
+                <h3>Total Saidas</h3>
+                <p id="totalsaida">{saida}</p>
+            </div>
     </div>
     
     <div>

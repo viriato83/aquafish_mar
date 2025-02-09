@@ -8,24 +8,25 @@ import Modal from "../../../components/modal";
 import Mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import { repositorioVenda } from "./vendasRepositorio";
-
+import Loading from "../../../components/loading";
 
 export default function VendasView() {
   const repositorio = new repositorioVenda();
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
-  const [id, setId] = useState(""); // Estado para o ID digitado
+  const [id, setId] = useState("");
+  const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const navigate = useNavigate();
 
-  const msg = useRef(null); // UseRef para manter uma instância estável
+  const msg = useRef(null);
   const moda = useRef(null);
 
   useEffect(() => {
-    // Inicializa as instâncias uma vez
     msg.current = new Mensagem();
     moda.current = new Modal();
 
     async function carregarDados() {
+      setLoading(true); // Ativa o Loading
       try {
         const dadosModelo = await repositorio.leitura();
         const dadosTotal = await repositorio.total();
@@ -33,13 +34,18 @@ export default function VendasView() {
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
+        msg.current.Erro("Erro ao carregar dados.");
+      } finally {
+        setLoading(false); // Desativa o Loading
       }
     }
+
     carregarDados();
   }, []);
 
   return (
     <>
+      {loading && <Loading />} {/* Exibe o componente de loading */}
       <Header />
       <Conteinner>
         <Slider />
@@ -55,25 +61,28 @@ export default function VendasView() {
                   <th>Valor Total</th>
                   <th>Cliente</th>
                   <th>Mercadorias</th>
-                  
                 </tr>
               </thead>
               <tbody>
                 {modelo.map((elemento, i) => (
-                 <tr key={i}> 
-                                    <td>{elemento.idvendas}</td>
-                                    <td>{elemento.quantidade}</td>
-                                    <td>{elemento.valor_uni} Mt </td>
-                                    <td>{elemento.data}</td>
-                                    <td>{elemento.valor_total.toLocaleString("pt-PT",{minimumFractionDigits:3})} Mt</td>
-                                    <td>{elemento.cliente.nome} </td>
-                                    <td>{elemento.mercadorias.map((elemento)=>{
-                                        return `${elemento.idmercadoria} : ${elemento.nome}` 
-                                        })} </td>
-                             
-                                    <td></td>
-                                         
-                                </tr>
+                  <tr key={i}>
+                    <td>{elemento.idvendas}</td>
+                    <td>{elemento.quantidade}</td>
+                    <td>{elemento.valor_uni} Mt</td>
+                    <td>{elemento.data}</td>
+                    <td>
+                      {elemento.valor_total.toLocaleString("pt-PT", {
+                        minimumFractionDigits: 3,
+                      })}{" "}
+                      Mt
+                    </td>
+                    <td>{elemento.cliente.nome}</td>
+                    <td>
+                      {elemento.mercadorias.map((elemento) => {
+                        return `${elemento.idmercadoria} : ${elemento.nome}`;
+                      })}{" "}
+                    </td>
+                  </tr>
                 ))}
               </tbody>
               <tfoot>
@@ -107,7 +116,7 @@ export default function VendasView() {
                 className="crudid"
                 placeholder="Digite o ID"
                 value={id}
-                onChange={(e) => setId(e.target.value)} // Atualiza o estado com o valor digitado
+                onChange={(e) => setId(e.target.value)}
               />
               <button
                 onClick={() => {

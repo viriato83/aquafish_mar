@@ -1,17 +1,36 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FiMenu, FiX } from "react-icons/fi"; // Ícones de menu
+
 
 export default function Slider() {
-  const [activeMenu, setActiveMenu] = useState(null); // Estado para armazenar o menu ativo
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Função para alternar o submenu visível
   const toggleMenu = (menu) => {
     setActiveMenu((prevMenu) => (prevMenu === menu ? null : menu));
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const buscarCargo = () => {
+    return sessionStorage.getItem("cargo");
+  };
+
   return (
     <>
-      <nav className="sidebar">
+  
+        <button
+          className={`hamburger-menu ${sidebarOpen ? "open" : ""}`}
+          onClick={toggleSidebar}
+        >
+          {sidebarOpen ? <FiX /> : <FiMenu />}
+        </button>
+   
+
+      <nav className={`sidebar ${sidebarOpen ? "active" : ""}`}>
         <ul>
           <li>
             <Link id="dashboard" to="/" className="toggle-menu">
@@ -19,111 +38,60 @@ export default function Slider() {
             </Link>
           </li>
           <li>
-            <Link
-              className="toggle-menu"
-              onClick={() => toggleMenu("clientes-menu")}
-            >
+            <Link onClick={() => toggleMenu("clientes-menu")} className="toggle-menu">
               Clientes
             </Link>
-            <ul
-              className={`submenu ${
-                activeMenu === "clientes-menu" ? "show" : ""
-              }`}
-              id="clientes-menu"
-            >
+            <ul className={`submenu ${activeMenu === "clientes-menu" ? "show" : ""}`}>
               <li>
-                <Link  to="/registarclientes"className="Clicadastrar">Registar Cliente</Link>
+                <Link to="/registarclientes">Registar Cliente</Link>
               </li>
               <li>
-                <Link to="/clientesview" className="listarClinte">Ver Clientes Disponíveis</Link>
+                <Link to="/clientesview">Ver Clientes Disponíveis</Link>
               </li>
             </ul>
           </li>
-          <li>
-            <Link
-              className="toggle-menu"
-              onClick={() => toggleMenu("stock-menu")}
-            >
-              Stock
-            </Link>
-            <ul
-              className={`submenu ${
-                activeMenu === "stock-menu" ? "show" : ""
-              }`}
-              id="stock-menu"
-            >
+
+          {buscarCargo() === "admin" || buscarCargo() === "informatico" ? (
+            <>
               <li>
-                <Link to="/RegistarStock" className="verCadastroStock">Cadastrar Stock</Link>
-              </li>
-              <li>
-                <Link to="/stockview" className="verStock">Ver Stocks Disponíveis</Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <Link
-              className="toggle-menu"
-              onClick={() => toggleMenu("mercadorias-menu")}
-            >
-              Mercadorias
-            </Link>
-            <ul
-              className={`submenu ${
-                activeMenu === "mercadorias-menu" ? "show" : ""
-              }`}
-              id="mercadorias-menu"
-            >
-              <li>
-                <Link to="/registarmercadoria" className="verCadastroMercadoria">
-                  Cadastrar Mercadoria
+                <Link onClick={() => toggleMenu("stock-menu")} className="toggle-menu">
+                  Stock
                 </Link>
+                <ul className={`submenu ${activeMenu === "stock-menu" ? "show" : ""}`}>
+                  <li>
+                    <Link to="/RegistarStock">Cadastrar Stock</Link>
+                  </li>
+                  <li>
+                    <Link to="/stockview">Ver Stocks Disponíveis</Link>
+                  </li>
+                </ul>
               </li>
               <li>
-                <Link to="/mercadoriaview" className="verMercadoria">
-                  Ver Mercadorias Disponíveis
+                <Link onClick={() => toggleMenu("mercadorias-menu")} className="toggle-menu">
+                  Mercadorias
                 </Link>
+                <ul className={`submenu ${activeMenu === "mercadorias-menu" ? "show" : ""}`}>
+                  <li>
+                    <Link to="/registarmercadoria">Cadastrar Mercadoria</Link>
+                  </li>
+                  <li>
+                    <Link to="/mercadoriaview">Ver Mercadorias Disponíveis</Link>
+                  </li>
+                </ul>
               </li>
-            </ul>
-          </li>
+            </>
+          ) : null}
+
           <li>
-            <Link
-              className="toggle-menu"
-              onClick={() => toggleMenu("vendas-menu")}
-            >
+            <Link onClick={() => toggleMenu("vendas-menu")} className="toggle-menu">
               Vendas
             </Link>
-            <ul
-              className={`submenu ${
-                activeMenu === "vendas-menu" ? "show" : ""
-              }`}
-              id="vendas-menu"
-            >
+            <ul className={`submenu ${activeMenu === "vendas-menu" ? "show" : ""}`}>
               <li>
-                <Link to="/registarvenda" className="verCadastroVendas">Cadastrar Venda</Link>
+                <Link to="/registarvenda">Cadastrar Venda</Link>
               </li>
               <li>
-                <Link to="/vendasview" className="verVendas">Ver Vendas Disponíveis</Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <Link
-              className="toggle-menu"
-              onClick={() => toggleMenu("morte-menu")}
-            >
-              Mortalidades
-            </Link>
-            <ul
-              className={`submenu ${
-                activeMenu === "morte-menu" ? "show" : ""
-              }`}
-              id="morte-menu"
-            >
-              <li>
-                <Link to="/registarmortalidade" className="verCadastroMortes">Registar Mortalidade</Link>
-              </li>
-              <li>
-                <Link to="/mortalidadeview" className="verMortalidade">Verificar Mortalidade</Link>
+                <Link to="/vendasview">Ver Vendas Disponíveis</Link>
               </li>
             </ul>
           </li>

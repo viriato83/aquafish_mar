@@ -12,9 +12,11 @@ import mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import { repositorioMortalidade } from "./mortalidadeRepository";
 import { useEffect, useState } from "react";
+import Loading from "../../../components/loading";
 
 export default function MortalidadeView() {
   
+  const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const repositorio = new repositorioMortalidade();
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
@@ -24,8 +26,9 @@ export default function MortalidadeView() {
   let     msg= new mensagem();
 
   useEffect(()=>{
-  
+     
     async function carregarDados() {
+      setLoading(true); // Ativa o Loading
       try {
         const dadosModelo = await repositorio.leitura();
         const dadosTotal = await repositorio.total();
@@ -34,6 +37,8 @@ export default function MortalidadeView() {
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
+      }   finally {
+        setLoading(false); // Desativa o Loading
       }
     }
     carregarDados();
@@ -43,6 +48,7 @@ export default function MortalidadeView() {
 
   return (
     <>
+    {loading&& <Loading></Loading>}
       <Header />
       <Conteinner>
         <Slider />

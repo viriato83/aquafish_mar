@@ -2,10 +2,10 @@ import mensagem from "../../../components/mensagem";
 
 export class repositorioVenda{
 
-
+   
     constructor(){
-        this.endpoint ="https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/vendas"
-        this.mensagem= new mensagem();
+      this.endpoint ="https://aquafish.eu-north-1.elasticbeanstalk.com/aquafish/vendas"
+      this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
     
     }
@@ -36,6 +36,7 @@ export class repositorioVenda{
     
       async  leitura() {
         try {
+          
           const res = await fetch(this.endpoint, {  // Adicione 'await' e utilize o this.endpoint
             method: 'GET',
             
@@ -47,6 +48,7 @@ export class repositorioVenda{
     
           if (res.status== 200) {
             const data = await res.json();
+
                     
     
             // console.log('Dados recebidos:', data);

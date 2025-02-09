@@ -12,6 +12,7 @@ import modal from "../../../components/modal";
 import mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import repositorioStock from "./Repositorio";
+import Loading from "../../../components/loading";
 
 export default function StockView() {
   const repositorio = new repositorioStock();
@@ -19,12 +20,15 @@ export default function StockView() {
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // Estado para o ID digitado
   const navigate = useNavigate();
+  
+  const [loading, setLoading] = useState(false); // Estado para exibir o loading
   let     moda= new modal();
   let     msg= new mensagem();
   
   useEffect(()=>{
-   
+    
     async function carregarDados() {
+      setLoading(true); // Ativa o Loading
       try {
         const dadosModelo = await repositorio.leitura();
         const dadosTotal = await repositorio.total();
@@ -33,6 +37,8 @@ export default function StockView() {
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
+      }finally{
+        setLoading(false); // Desativa o Loading
       }
     }
     carregarDados();
@@ -42,6 +48,7 @@ export default function StockView() {
 
   return (
     <>
+    {loading &&<Loading></Loading>}
       <Header />
       <Conteinner>
         <Slider />

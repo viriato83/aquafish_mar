@@ -8,6 +8,7 @@ import Modal from "../../../components/modal";
 import Mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import RepositorioMercadoria from "./Repositorio";
+import Loading from "../../../components/loading";
 
 export default function MercadoriaView() {
   const repositorio = new RepositorioMercadoria();
@@ -16,6 +17,7 @@ export default function MercadoriaView() {
   const [id, setId] = useState(""); // Estado para o ID digitado
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const msg = useRef(null); // UseRef para manter uma instância estável
   const moda = useRef(null);
 
@@ -25,6 +27,7 @@ export default function MercadoriaView() {
     moda.current = new Modal();
 
     async function carregarDados() {
+      setLoading(true); // Exibir loading
       try {
         const dadosModelo = await repositorio.leitura();
         const dadosTotal = await repositorio.total();
@@ -32,6 +35,8 @@ export default function MercadoriaView() {
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
+      }finally {
+        setLoading(false); // Esconder loading
       }
     }
     carregarDados();
@@ -39,6 +44,7 @@ export default function MercadoriaView() {
 
   return (
     <>
+    {loading && <Loading></Loading>}
       <Header />
       <Conteinner>
         <Slider />
