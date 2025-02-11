@@ -89,9 +89,6 @@ export default function Dashboard() {
   const buscarCargo = () => sessionStorage.getItem("cargo");
 
   useEffect(() => {
-    let contador1 = 0;
-    let contador2 = 0;
-
     async function card() {
       setLoading(true);
       try {
@@ -104,12 +101,13 @@ export default function Dashboard() {
         setCard(cards2);
 
         let mercadorias = await mercadoria.leitura();
+        let contador1 = 0;
+        let contador2 = 0;
+
         mercadorias.forEach((e) => {
           if (e.tipo.toLowerCase() === "entrada") {
             contador1 += e.quantidade;
           }
-          contador2 += e.q_saidas;
-
           if (e.tipo.toLowerCase() === "saida") {
             contador2 += e.quantidade;
           }
@@ -202,7 +200,7 @@ export default function Dashboard() {
       <Conteinner>
         <Sidebar></Sidebar>
         <Content>
-      {loading && <Loading></Loading>}
+          {loading && <Loading></Loading>}
           <div className="dashboard">
             <div className="card total-clients">
               <h3>Total Clientes</h3>
