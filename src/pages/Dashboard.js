@@ -87,48 +87,49 @@ export default function Dashboard() {
   const [dadosParaExportar, setDadosParaExportar] = useState(null);
 
   const buscarCargo = () => sessionStorage.getItem("cargo");
-
   useEffect(() => {
     async function card() {
-      setLoading(true);
-      try {
-        let cards2 = [
-          await clientes.total(),
-          await mercadoria.total(),
-          await stok.total(),
-          await vendas.total(),
-        ];
-        setCard(cards2);
-
-        let mercadorias = await mercadoria.leitura();
-        let contador1 = 0;
-        let contador2 = 0;
-
-        mercadorias.forEach((e) => {
-          if (e.tipo.toLowerCase() === "entrada") {
-            contador1 += e.quantidade;
-          }
-          if (e.tipo.toLowerCase() === "saida") {
-            contador2 += e.quantidade;
-          }
-        });
-
-        setEntradada(contador1);
-        setSaida(contador2);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+      if (cards.length === 0) {  // Verifica se os cards já foram carregados
+        setLoading(true);
+        try {
+          let cards2 = [
+            await clientes.total(),
+            await mercadoria.total(),
+            await stok.total(),
+            await vendas.total(),
+          ];
+          setCard(cards2);
+  
+          let mercadorias = await mercadoria.leitura();
+          let contador1 = 0;
+          let contador2 = 0;
+  
+          mercadorias.forEach((e) => {
+            if (e.tipo.toLowerCase() === "entrada") {
+              contador1 += e.quantidade;
+            }
+            if (e.tipo.toLowerCase() === "saida") {
+              contador2 += e.quantidade;
+            }
+          });
+  
+          setEntradada(contador1);
+          setSaida(contador2);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
       }
     }
-
+  
     async function setGrafico() {
       const dados = await vendas.leitura();
       const { labels, valores } = agruparPorPeriodo(dados, "mes");
       setVenda(valores);
       setData(labels);
-
-      // Prepare the exportable data only after fetching everything
+  
+      // Prepara os dados para exportação depois de buscar tudo
       setDadosParaExportar({
         infoBasica: [
           { label: "Total Clientes", valor: cards[0] },
@@ -142,19 +143,19 @@ export default function Dashboard() {
         labels: labels,
       });
     }
-
+  
     card();
     setGrafico();
-  }, [cards, entrada, saida]);
-
+  }, [cards.length, entrada, saida]);  // Ajuste na lista de dependências
+  
   useEffect(() => {
     if (useVenda.length > 0 && useData.length > 0) {
       const ctx = chartRef.current.getContext("2d");
-
+  
       if (chartInstanceRef.current) {
         chartInstanceRef.current.destroy();
       }
-
+  
       chartInstanceRef.current = new Chart(ctx, {
         type: "bar",
         data: {
@@ -192,8 +193,8 @@ export default function Dashboard() {
         },
       });
     }
-  }, [useVenda, useData]);
-
+  }, [useVenda, useData]);  // Isso só será executado quando useVenda ou useData mudarem
+  
   return (
     <>
       <Header></Header>
