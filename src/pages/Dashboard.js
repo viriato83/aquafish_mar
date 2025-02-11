@@ -148,7 +148,7 @@ export default function Dashboard() {
     setGrafico();
   }, []);  // Ajuste na lista de dependências
   
-  useEffect(() => {
+
     if (useVenda.length > 0 && useData.length > 0) {
       const ctx = chartRef.current.getContext("2d");
   
@@ -193,7 +193,7 @@ export default function Dashboard() {
         },
       });
     }
-  }, [useVenda, useData]);  // Isso só será executado quando useVenda ou useData mudarem
+    // Isso só será executado quando useVenda ou useData mudarem
   
   return (
     <>
