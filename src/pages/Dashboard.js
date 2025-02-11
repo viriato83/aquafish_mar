@@ -146,7 +146,7 @@ export default function Dashboard() {
   
     card();
     setGrafico();
-  }, [cards.length, entrada, saida]);  // Ajuste na lista de dependências
+  });  // Ajuste na lista de dependências
   
   useEffect(() => {
     if (useVenda.length > 0 && useData.length > 0) {
@@ -193,7 +193,7 @@ export default function Dashboard() {
         },
       });
     }
-  }, [useVenda, useData]);  // Isso só será executado quando useVenda ou useData mudarem
+  });  // Isso só será executado quando useVenda ou useData mudarem
   
   return (
     <>
