@@ -94,7 +94,9 @@ export default function RegistarStock() {
                 onChange={(e) => setInputs({ ...inputs, tipo: e.target.value })}
               />
               <br />
-              <label>Mercadoria:</label>
+              <label>Mercadoria:
+                --Opcional
+              </label>
               <select
                 className="mercadoria"
                 value={inputs.mercadoria}

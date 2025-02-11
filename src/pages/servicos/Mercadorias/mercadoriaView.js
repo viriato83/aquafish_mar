@@ -9,6 +9,7 @@ import Mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import RepositorioMercadoria from "./Repositorio";
 import Loading from "../../../components/loading";
+import * as XLSX from "xlsx";  // Import the xlsx library
 
 export default function MercadoriaView() {
   const repositorio = new RepositorioMercadoria();
@@ -35,16 +36,24 @@ export default function MercadoriaView() {
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
-      }finally {
+      } finally {
         setLoading(false); // Esconder loading
       }
     }
     carregarDados();
   }, []);
 
+  // Função para exportar os dados para Excel
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(modelo);  // Converte os dados da tabela em uma planilha
+    const wb = XLSX.utils.book_new();  // Cria um novo arquivo de Excel
+    XLSX.utils.book_append_sheet(wb, ws, "Mercadorias");  // Adiciona a planilha ao arquivo
+    XLSX.writeFile(wb, "mercadorias.xlsx");  // Gera o arquivo Excel e permite o download
+  };
+
   return (
     <>
-    {loading && <Loading></Loading>}
+      {loading && <Loading />}
       <Header />
       <Conteinner>
         <Slider />
@@ -136,7 +145,14 @@ export default function MercadoriaView() {
               >
                 Apagar
               </button>
+              {/* Botão para exportar para Excel */}
             </div>
+              <button
+                onClick={exportToExcel}
+                className="btn-export"
+              >
+                Exportar para Excel
+              </button>
           </div>
         </Content>
       </Conteinner>

@@ -3,16 +3,14 @@ import Header from "../../../components/Header";
 import Conteinner from "../../../components/Conteinner";
 import Slider from "../../../components/Slider";
 import Content from "../../../components/Content";
-
-
-import { useNavigate } from "react-router-dom";
-
 import modal from "../../../components/modal";
 import mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import { repositorioMortalidade } from "./mortalidadeRepository";
 import { useEffect, useState } from "react";
 import Loading from "../../../components/loading";
+import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx"; // Importa a biblioteca xlsx
 
 export default function MortalidadeView() {
   
@@ -44,7 +42,17 @@ export default function MortalidadeView() {
     carregarDados();
 
   }, []);
+
+  // Função para exportar dados para Excel
+  const exportarExcel = () => {
+    // Cria um arquivo de planilha
+    const ws = XLSX.utils.json_to_sheet(modelo);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Mortalidade");
     
+    // Gera o arquivo Excel e inicia o download
+    XLSX.writeFile(wb, "relatorio_mortalidade.xlsx");
+  };
 
   return (
     <>
@@ -59,7 +67,7 @@ export default function MortalidadeView() {
                 <tr>
                   <th>ID</th>
                   <th>Descrição</th>
-                  <th>Quanidade</th>
+                  <th>Quantidade</th>
                   <th>Data</th>
                   <th>Total</th>
                 </tr>
@@ -71,7 +79,7 @@ export default function MortalidadeView() {
                     <td>{elemento.descricao}</td>
                     <td>{elemento.quantidade}</td>
                     <td>{elemento.data}</td>
-                    <td></td>
+                    <td>{elemento.total}</td> {/* Mostra o total no final */}
                   </tr>
                 ))}
               </tbody>
@@ -83,25 +91,22 @@ export default function MortalidadeView() {
               </tfoot>
             </table>
             <div className="crud">
-             
               <button
                 className="editar"
                 onClick={() => {
                     if (id) {
                         moda.Abrir("deseja editar o "+id)
-                         document.querySelector(".sim").addEventListener("click",()=>{
+                         document.querySelector(".sim").addEventListener("click",()=>{ 
                             navigate(`/registar-mortalidade/${id}`)
                           })
-                         document.querySelector(".nao").addEventListener("click",()=>{
+                         document.querySelector(".nao").addEventListener("click",()=>{ 
                            moda.fechar()
                           })
                       } else {
                         msg.Erro("Por favor, digite um ID válido!");
                       }
-                 
-                }}
+                  }}
               >
-
                 Editar
               </button>
               <input
@@ -112,24 +117,32 @@ export default function MortalidadeView() {
                 onChange={(e) => setId(e.target.value)} // Atualiza o estado com o valor digitado
               />
               <button
-              onClick={()=>{
-                if (id) {
-                    moda.Abrir("deseja apagar o "+id)
-                     document.querySelector(".sim").addEventListener("click",()=>{
-                    repositorio.deletar(id)
-                    moda.fechar()
+                onClick={() => {
+                  if (id) {
+                      moda.Abrir("deseja apagar o " + id)
+                       document.querySelector(".sim").addEventListener("click", () => {
+                        repositorio.deletar(id)
+                        moda.fechar()
                       })
-                     document.querySelector(".nao").addEventListener("click",()=>{
-                       moda.fechar()
+                       document.querySelector(".nao").addEventListener("click", () => {
+                         moda.fechar()
                       })
                   } else {
                     msg.Erro("Por favor, digite um ID válido!");
                   }
-              
-              }}
-                 className="apagar">Apagar</button>
-            
+                }}
+                className="apagar">Apagar
+              </button>
+
+
             </div>
+              {/* Botão para exportar para Excel */}
+              <button
+                className="btn-export"
+                onClick={exportarExcel}
+              >
+                Exportar para Excel
+              </button>
           </div>
         </Content>
       </Conteinner>

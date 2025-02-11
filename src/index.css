@@ -31,7 +31,7 @@ header {
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +79,9 @@ header:hover {
   top: 0;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  z-index: 1000;
 }
+
 
 .sidebar ul {
   list-style: none;
@@ -184,7 +186,7 @@ main {
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -457,6 +459,7 @@ select {
   }
   .sair:active{
     opacity: 0.8;
+    color:red;
   }
   
 .usuario{
@@ -640,24 +643,63 @@ canvas {
 .loading-spinner-overlay {
   position: fixed;
   top: 0;
-  left: 7%;
+  left: 0; /* Alinha corretamente a sobrecarga à tela inteira */
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.3); /* Fundo semitransparente */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-.loading-spinner {
-  font-size: 24px;
-  color: #ffffff;
-  background: #007bff;
-  padding: 10px 20px;
-  border-radius: 8px;
+.loading-spinner-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Fundo semitransparente */
+  filter: blur(5px); /* Aplica o desfoque ao fundo */
+  z-index: -1; /* Coloca o desfoque atrás do conteúdo */
 }
 
+.spinner {
+  /* Aqui você pode estilizar seu spinner, por exemplo: */
+  width: 50px;
+  height: 50px;
+  border: 4px solid #fff;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-export{
+  margin-top: 10px;
+  background-color: #22628d;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  padding: 5px;
+}
+.btn-export:active{
+  color: #22628d;
+  background-color: #ffffff;
+}
 
 @media (max-width: 480px) {
   .loading-spinner-overlay {
@@ -733,6 +775,7 @@ canvas {
     transform: rotate(90deg); /* Efeito de rotação */
     backdrop-filter: blur(3px); /* Desfoque elegante */
     transition: transform 0.3s ease, backdrop-filter 0.3s ease; /* Transições suaves */
+
   }
   
   .content .tabela table {

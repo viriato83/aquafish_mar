@@ -4,7 +4,7 @@ export default class  repositorioMercadoria{
 
 
     constructor(){
-        this.endpoint ="https://api.mozsystems.com/aquafish/mercadoria"
+        this.endpoint ="http://localhost:8080/aquafish/mercadoria"
         this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       
@@ -66,7 +66,7 @@ export default class  repositorioMercadoria{
       } 
       async buscarStock(){
         try {
-            const res = await fetch("http://localhost:8080/aquafish/stock", {  // Adicione 'await' e utilize o this.endpoint
+            const res = await fetch("https://api.mozsystems.com/aquafish/stock", {  // Adicione 'await' e utilize o this.endpoint
               method: 'GET',
               
               headers: {
@@ -110,7 +110,7 @@ export default class  repositorioMercadoria{
     
           if (res.status==200) {
             console.log("Editado com sucesso"); 
-            this.mensagem.sucesso("Editado com sucesso");  
+            // this.mensagem.sucesso("Editado com sucesso");  
             return true;
           } else {
             console.log("Erro ao editar:", res.status);
@@ -135,12 +135,12 @@ export default class  repositorioMercadoria{
           });
     
           if (res.status==200) {
-            console.log("Editado com sucesso"); 
+            // console.log("Editado com sucesso"); 
             // this.mensagem.sucesso("Editado com sucesso");  
             return true;
           } else {
             console.log("Erro ao editar:", res.status);
-            this.mensagem.Erro("Erro ao editar");
+            // this.mensagem.Erro("Erro ao editar");
             return false;
           }
         } catch (e) {

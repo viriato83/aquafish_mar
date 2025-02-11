@@ -146,7 +146,7 @@ export default function RegistarMercadoria() {
                 }
               />
               <br />
-              <label>Data de Saída:</label>
+              <label>Data de Saída: --Opcional</label>
               <input
                 type="date"
                 className="dataSaida"
@@ -162,7 +162,9 @@ export default function RegistarMercadoria() {
                   setInputs({ ...inputs, estoque: e.target.value })
                 }
               >
-                <option value="">Selecione um estoque</option>
+                <option value="">Selecione um estoque
+                
+                </option>
                 {estoques.map((estoque) => (
                   <option key={estoque.idstock} value={estoque.idstock} >
                    {estoque.idstock}. {estoque.tipo}

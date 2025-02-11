@@ -9,6 +9,8 @@ import Mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import { repositorioVenda } from "./vendasRepositorio";
 import Loading from "../../../components/loading";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 export default function VendasView() {
   const repositorio = new repositorioVenda();
@@ -42,6 +44,26 @@ export default function VendasView() {
 
     carregarDados();
   }, []);
+
+  const exportarParaExcel = () => {
+    const dados = modelo.map((venda) => ({
+      ID: venda.idvendas,
+      Quantidade: venda.quantidade,
+      "Valor Unitário": venda.valor_uni,
+      Data: venda.data,
+      "Valor Total": venda.valor_total,
+      Cliente: venda.cliente.nome,
+      "Mercadorias": venda.mercadorias.map((mercadoria) => `${mercadoria.idmercadoria} : ${mercadoria.nome}`).join(", "),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(dados);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Vendas");
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+    saveAs(blob, "relatorio_vendas.xlsx");
+  };
 
   return (
     <>
@@ -138,6 +160,12 @@ export default function VendasView() {
                 Apagar
               </button>
             </div>
+            <button
+              onClick={exportarParaExcel}
+              className="btn-export"
+            >
+              Exportar Relatório Excel
+            </button>
           </div>
         </Content>
       </Conteinner>

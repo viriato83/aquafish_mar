@@ -13,41 +13,47 @@ import mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import Loading from "../../../components/loading";
 
+import * as XLSX from 'xlsx'; // Importar o XLSX
+
 export default function ClientesView() {
   const repositorio = new ClienteRepository();
   
-  const [loading, setLoading] = useState(false); // Estado para exibir o loading
+  const [loading, setLoading] = useState(false);
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
-  const [id, setId] = useState(""); // Estado para o ID digitado
+  const [id, setId] = useState("");
   const navigate = useNavigate();
-  let     moda= new modal();
-  let     msg= new mensagem();
+  let moda = new modal();
+  let msg = new mensagem();
   
-  useEffect(()=>{
-   
+  useEffect(() => {
     async function carregarDados() {
       setLoading(true);
       try {
         const dadosModelo = await repositorio.leitura();
         const dadosTotal = await repositorio.total();
-      
         setModelo(dadosModelo);
         setTotal(dadosTotal);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
-      }finally{
+      } finally {
         setLoading(false);
       }
     }
     carregarDados();
-
   }, []);
-    
+
+  // Função para exportar os dados para Excel
+  const exportarParaExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(modelo); // Convertendo os dados para planilha
+    const wb = XLSX.utils.book_new(); // Criando o livro de trabalho
+    XLSX.utils.book_append_sheet(wb, ws, "Clientes"); // Adicionando a planilha ao livro
+    XLSX.writeFile(wb, "clientes.xlsx"); // Gerando o arquivo
+  };
 
   return (
     <>
-    {loading && <Loading></Loading>}
+      {loading && <Loading></Loading>}
       <Header />
       <Conteinner>
         <Slider />
@@ -82,25 +88,22 @@ export default function ClientesView() {
               </tfoot>
             </table>
             <div className="crud">
-             
               <button
                 className="editar"
                 onClick={() => {
-                    if (id) {
-                        moda.Abrir("deseja editar o "+id)
-                         document.querySelector(".sim").addEventListener("click",()=>{
-                            navigate(`/registar-clientes/${id}`)
-                          })
-                         document.querySelector(".nao").addEventListener("click",()=>{
-                           moda.fechar()
-                          })
-                      } else {
-                        msg.Erro("Por favor, digite um ID válido!");
-                      }
-                 
+                  if (id) {
+                    moda.Abrir("Deseja editar o " + id);
+                    document.querySelector(".sim").addEventListener("click", () => {
+                      navigate(`/registar-clientes/${id}`);
+                    });
+                    document.querySelector(".nao").addEventListener("click", () => {
+                      moda.fechar();
+                    });
+                  } else {
+                    msg.Erro("Por favor, digite um ID válido!");
+                  }
                 }}
               >
-
                 Editar
               </button>
               <input
@@ -108,31 +111,37 @@ export default function ClientesView() {
                 className="crudid"
                 placeholder="Digite o ID"
                 value={id}
-                onChange={(e) => setId(e.target.value)} // Atualiza o estado com o valor digitado
+                onChange={(e) => setId(e.target.value)} 
               />
               <button
-              onClick={()=>{
-                if (id) {
-                    moda.Abrir("deseja apagar o "+id)
-                     document.querySelector(".sim").addEventListener("click",()=>{
-                    repositorio.deletar(id)
-                    moda.fechar()
-                      })
-                     document.querySelector(".nao").addEventListener("click",()=>{
-                       moda.fechar()
-                      })
+                onClick={() => {
+                  if (id) {
+                    moda.Abrir("Deseja apagar o " + id);
+                    document.querySelector(".sim").addEventListener("click", () => {
+                      repositorio.deletar(id);
+                      moda.fechar();
+                    });
+                    document.querySelector(".nao").addEventListener("click", () => {
+                      moda.fechar();
+                    });
                   } else {
                     msg.Erro("Por favor, digite um ID válido!");
                   }
-              
-              }}
-                 className="apagar">Apagar</button>
-            
+                }}
+                className="apagar"
+              >
+                Apagar
+              </button>
+
             </div>
+              {/* Botão de exportar para Excel */}
+              <button onClick={exportarParaExcel} className="btn-export">
+                Exportar para Excel
+              </button>
           </div>
         </Content>
       </Conteinner>
-      <Footer></Footer>
+      <Footer />
     </>
   );
 }

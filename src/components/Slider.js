@@ -79,9 +79,22 @@ export default function Slider() {
                   </li>
                 </ul>
               </li>
+              <li>
+                <Link onClick={() => toggleMenu("mortalidade-menu")} className="toggle-menu">
+                Mortalidade
+                </Link>
+                <ul className={`submenu ${activeMenu === "mortalidade-menu" ? "show" : ""}`}>
+                  <li>
+                    <Link to="/Registarmortalidade">Cadastrar Mortalidades</Link>
+                  </li>
+                  <li>
+                    <Link to="/mortalidadeview">Ver Mortalidades Disponíveis</Link>
+                  </li>
+                </ul>
+              </li>
             </>
           ) : null}
-
+   
           <li>
             <Link onClick={() => toggleMenu("vendas-menu")} className="toggle-menu">
               Vendas

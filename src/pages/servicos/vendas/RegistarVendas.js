@@ -61,7 +61,7 @@ export default function RegistarVenda() {
       if (merc.idmercadoria == inputs.mercadoria) {
             Total = merc.quantidade - Number(inputs.quantidade);
         // Valida se a quantidade restante é válida
-        if (Total < 0) {
+        if (Total <= 0) {
           // window.alert("Quantidade insuficiente em estoque.");
           // Total = 0; // Garante que não seja negativo
             Cadastro=false
@@ -107,48 +107,54 @@ export default function RegistarVenda() {
     });
   };
 
-  const cadastrar =  async() => {
+  const cadastrar = async () => {
     if (id) {
       repositorio.editar(id, criaVenda());
       msg.sucesso("Venda editada com sucesso.");
-      limparFormulario(); // Limpa o formulário após editar
+      limparFormulario();
     } else {
-        if (
-          !inputs.quantidade ||
-          !inputs.valorUnitario ||
-          !inputs.data ||
-          !inputs.cliente ||
-          !inputs.mercadoria
-        ) {
-          msg.Erro("Preencha corretamente todos os campos obrigatórios");
-        } else {
-            if(Cadastro==true){
-                repositorio.cadastrar(criaVenda());
-                //Atualizacao 2025
-              
-                mercadoriaRepo.editar(inputs.mercadoria,criaMercadoria())
-
-                       // Atualize a quantidade de saídas
-                    mercadorias.forEach((merc) => {
-                      if (merc.idmercadoria == inputs.mercadoria) {
-                        saidas = merc.q_saidas + Number(inputs.quantidade); // Atualiza o valor da variável `saidas`
-                      }
-                    });
-
-
-                    console.log( saidas)
-                 
-                    await  mercadoriaRepo.editar2(inputs.mercadoria,inputs.data,saidas)
-              
-                msg.sucesso("Venda cadastrada com sucesso.");
-                console.log(Cadastro)
-                limparFormulario(); // Limpa o formulário após cadastrar
-              } if(Cadastro==false){
-                msg.Erro("Estoque insuficiente");
-              }
+      if (
+        !inputs.quantidade ||
+        !inputs.valorUnitario ||
+        !inputs.data ||
+        !inputs.cliente ||
+        !inputs.mercadoria
+      ) {
+        msg.Erro("Preencha corretamente todos os campos obrigatórios");
+        return;
+      }
+  
+      // Verificar estoque antes do cadastro
+      const novaMercadoria = criaMercadoria();
+  
+      if (!Cadastro) {
+        msg.Erro("Estoque insuficiente.");
+        return;
+      }
+  
+      try {
+        // Cadastrar venda
+        await repositorio.cadastrar(criaVenda());
+  
+        // Atualizar mercadoria com estoque atualizado
+        await mercadoriaRepo.editar(inputs.mercadoria, novaMercadoria);
+  
+        // Atualizar saídas
+        mercadorias.forEach((merc) => {
+          if (merc.idmercadoria == inputs.mercadoria) {
+            saidas = merc.q_saidas + Number(inputs.quantidade);
           }
+        });
+  
+        await mercadoriaRepo.editar2(inputs.mercadoria, inputs.data, saidas);
+  
+        msg.sucesso("Venda cadastrada com sucesso.");
+      } catch (error) {
+        msg.Erro(`Erro ao cadastrar venda.`);
+      }
     }
   };
+  
 
   return (
     <>
