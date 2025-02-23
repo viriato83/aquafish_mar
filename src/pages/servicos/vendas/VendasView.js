@@ -135,7 +135,7 @@ export default function VendasView() {
               </button>
               <input
                 type="number"
-                className="crudid"
+                className="  crudid"
                 placeholder="Digite o ID"
                 value={id}
                 onChange={(e) => setId(e.target.value)}

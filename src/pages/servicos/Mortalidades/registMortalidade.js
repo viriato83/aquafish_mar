@@ -52,7 +52,7 @@ export default function RegistarMortalidade(){
           <Content>
             
               <div className="Cadastro" >
-                <h1>Cadastro de Clientes</h1>
+                <h1>Registo  de Mortalidade</h1>
                 <br/>
                 <div className="form">
                     <label >ID:</label>

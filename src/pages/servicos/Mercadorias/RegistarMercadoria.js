@@ -94,7 +94,7 @@ export default function RegistarMercadoria() {
         <Slider />
         <Content>
           <div className="Cadastro">
-            <h1>Cadastro de Mercadorias</h1>
+            <h1>Registo  de Mercadorias</h1>
             <br />
             <div className="form">
               <label>ID:</label>

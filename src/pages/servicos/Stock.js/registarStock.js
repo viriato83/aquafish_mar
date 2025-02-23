@@ -68,7 +68,7 @@ export default function RegistarStock() {
         <Slider />
         <Content>
           <div className="Cadastro">
-            <h1>Cadastro de Stock</h1>
+            <h1>Registo  de Stock</h1>
             <br />
             <div className="form">
               <label>ID:</label>

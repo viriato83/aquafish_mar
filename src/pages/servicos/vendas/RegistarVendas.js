@@ -163,7 +163,7 @@ export default function RegistarVenda() {
         <Slider />
         <Content>
           <div className="Cadastro">
-            <h1>Cadastro de Vendas</h1>
+            <h1>Registo de Vendas</h1>
             <br />
             <div className="form">
             <label>ID:</label>

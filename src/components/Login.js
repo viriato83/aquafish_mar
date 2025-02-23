@@ -7,11 +7,12 @@ export default function Login({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("ligado") === "true"
   );
-
+ var [Entrar,setEntrar] = useState("Entrar");
 
   const endpointSpring = "https://api.mozsystems.com/aquafish/login";
   const handleLogin = async () => {
     try {
+      setEntrar("Carregando")
       const response = await fetch(endpointSpring, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -35,6 +36,8 @@ export default function Login({ children }) {
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       setErrorMessage("Erro ao conectar com o servidor.");
+    }finally{
+      setEntrar("Entrar")
     }
   };
 
@@ -79,12 +82,12 @@ export default function Login({ children }) {
         {errorMessage.trim() !== "" && (
           <div className="login-error">{errorMessage}</div>
         )}
-        <button className="login-button" onKeyDown={
+        <button className=" btn login-button" onKeyDown={
             (event) => event.key === "Enter"? handleLogin() : null
 
   
         } onClick={handleLogin}>
-          Entrar
+          {Entrar}
         </button>
       </div>
     </section>
