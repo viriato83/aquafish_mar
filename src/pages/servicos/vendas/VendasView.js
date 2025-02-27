@@ -61,9 +61,9 @@ export default function VendasView() {
     XLSX.utils.book_append_sheet(wb, ws, "Vendas");
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-
     saveAs(blob, "relatorio_vendas.xlsx");
   };
+  const permissao=sessionStorage.getItem("cargo")
 
   return (
     <>
@@ -114,7 +114,7 @@ export default function VendasView() {
                 </tr>
               </tfoot>
             </table>
-            <div className="crud">
+            {(permissao==="admin"||permissao==="funcionario") && (<div className="crud">
               <button
                 className="editar"
                 onClick={() => {
@@ -159,13 +159,13 @@ export default function VendasView() {
               >
                 Apagar
               </button>
-            </div>
-            <button
+            </div>)}
+           {permissao==="admin" &&( <button
               onClick={exportarParaExcel}
-              className="btn-export"
+              className="btn-export mt-3"
             >
               Exportar Relatório Excel
-            </button>
+            </button>)}
           </div>
         </Content>
       </Conteinner>

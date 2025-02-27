@@ -237,8 +237,9 @@ export default function Dashboard() {
             <canvas id="salesChart" ref={chartRef}></canvas>
           </div>
 
-          {dadosParaExportar && (
-            <button
+          {(buscarCargo()==="admin" && dadosParaExportar ) && (
+              
+              <button
               onClick={() =>
                 exportarParaExcel(dadosParaExportar, "dashboard_dados.xlsx")
               }

@@ -25,7 +25,7 @@ export default function ClientesView() {
   const navigate = useNavigate();
   let moda = new modal();
   let msg = new mensagem();
-  
+   const permissao = sessionStorage.getItem("cargo")
   useEffect(() => {
     async function carregarDados() {
       setLoading(true);
@@ -41,6 +41,7 @@ export default function ClientesView() {
       }
     }
     carregarDados();
+
   }, []);
 
   // Função para exportar os dados para Excel
@@ -134,10 +135,10 @@ export default function ClientesView() {
               </button>
 
             </div>
-              {/* Botão de exportar para Excel */}
-              <button onClick={exportarParaExcel} className="btn-export">
+           
+              {permissao==="admin" &&(  <button onClick={exportarParaExcel} className="btn-export">
                 Exportar para Excel
-              </button>
+              </button>)}
           </div>
         </Content>
       </Conteinner>

@@ -17,7 +17,7 @@ export default function StockView() {
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // State for the entered ID
   const navigate = useNavigate();
-  
+   const permissao= sessionStorage.getItem("cargo")
   const [loading, setLoading] = useState(false); // Loading state
   let moda = new Modal();
   let msg = new mensagem();
@@ -145,9 +145,9 @@ export default function StockView() {
                 Apagar
               </button>
             </div>
-              <button onClick={exportToExcel} className="btn-export">
+            {permissao==="admin" &&( <button onClick={exportToExcel} className="btn-export">
                 Exportar para Excel
-              </button>
+              </button>)}
           </div>
         </Content>
       </Conteinner>

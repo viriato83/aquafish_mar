@@ -17,7 +17,7 @@ export default function MercadoriaView() {
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // Estado para o ID digitado
   const navigate = useNavigate();
-
+const permissao= sessionStorage.getItem("cargo");
   const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const msg = useRef(null); // UseRef para manter uma instância estável
   const moda = useRef(null);
@@ -147,12 +147,12 @@ export default function MercadoriaView() {
               </button>
               {/* Botão para exportar para Excel */}
             </div>
-              <button
+            {permissao==="admin" &&(  <button
                 onClick={exportToExcel}
                 className="btn-export"
               >
                 Exportar para Excel
-              </button>
+              </button>)}
           </div>
         </Content>
       </Conteinner>

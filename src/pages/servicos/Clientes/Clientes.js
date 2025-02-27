@@ -32,7 +32,7 @@ export default function RegistarClientes(){
         if(id){
           repositorio.editar(id,criaCliente())
         }else{
-          if(!inputs.nome || !inputs.telefone || !inputs.localizacao){
+          if(!inputs.nome ||!inputs.localizacao){
             msg.Erro("Prencha correctamente todos campos")
         
           }else{
@@ -74,7 +74,7 @@ export default function RegistarClientes(){
                       }
                    />
                    <br/>
-                    <label >Telefone: </label>
+                    <label >Telefone: <span className="bg-primary">--Opcional--</span> </label>
                    <input type="tel"  className="telefone" id="cad" placeholder="Telefone do cliente"
                       onChange={(e) =>{
                         setInputs({...inputs,telefone:e.target.value});}

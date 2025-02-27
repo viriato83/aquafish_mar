@@ -19,6 +19,7 @@ export default function MortalidadeView() {
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // Estado para o ID digitado
+  const permissao=sessionStorage.getItem("cargo")
   const navigate = useNavigate();
   let     moda= new modal();
   let     msg= new mensagem();
@@ -137,12 +138,12 @@ export default function MortalidadeView() {
 
             </div>
               {/* Botão para exportar para Excel */}
-              <button
+              {permissao==="admin" &&(  <button
                 className="btn-export"
                 onClick={exportarExcel}
               >
                 Exportar para Excel
-              </button>
+              </button>)}
           </div>
         </Content>
       </Conteinner>
