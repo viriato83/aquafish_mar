@@ -105,6 +105,7 @@ export default function RegistarMercadoria() {
                 type="text"
                 className="nome"
                 placeholder="Nome da mercadoria"
+                value={inputs.nome}
              
                 onChange={(e) => setInputs({ ...inputs, nome: e.target.value })}
               />
@@ -114,14 +115,16 @@ export default function RegistarMercadoria() {
                 type="text"
                 className="tipo"
                 placeholder="Saída ou Entrada"
+                value={inputs.tipo}
                 onChange={(e) => setInputs({ ...inputs, tipo: e.target.value })}
               />
               <br />
-              <label>Quantidade:</label>
+              <label>Quantidade: kg</label>
               <input
                 type="number"
                 className="quantidade"
-                placeholder="Quantidade"
+                placeholder="Quantidade kg"
+                value={inputs.quantidade}
                 onChange={(e) =>
                   setInputs({ ...inputs, quantidade: e.target.value })
                 }
@@ -131,6 +134,7 @@ export default function RegistarMercadoria() {
               <input
                 type="date"
                 className="dataEntrada"
+                value={inputs.dataEntrada}
                 onChange={(e) =>
                   setInputs({ ...inputs, dataEntrada: e.target.value })
                 }
@@ -141,6 +145,7 @@ export default function RegistarMercadoria() {
                 type="number"
                 className="valorUnitario"
                 placeholder="Valor unitário"
+                value={inputs.valorUnitario}
                 onChange={(e) =>
                   setInputs({ ...inputs, valorUnitario: e.target.value })
                 }
@@ -150,6 +155,7 @@ export default function RegistarMercadoria() {
               <input
                 type="date"
                 className="dataSaida"
+                
                 onChange={(e) =>
                   setInputs({ ...inputs, dataSaida: e.target.value })
                 }

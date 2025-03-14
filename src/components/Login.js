@@ -44,6 +44,11 @@ export default function Login({ children }) {
   if (isLoggedIn) {
     return <>{children}</>;
   }
+    const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  }
 
   return (
     <section className="login-section">
@@ -66,6 +71,10 @@ export default function Login({ children }) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            onKeyDown={
+              handleKeyDown
+     
+           }
           />
         </div>
         <div className="login-input-group">
@@ -77,14 +86,17 @@ export default function Login({ children }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            onKeyDown={
+              handleKeyDown
+     
+           }
           />
         </div>
         {errorMessage.trim() !== "" && (
           <div className="login-error">{errorMessage}</div>
         )}
         <button className=" btn login-button" onKeyDown={
-            (event) => event.key === "Enter"? handleLogin() : null
-
+           handleKeyDown
   
         } onClick={handleLogin}>
           {Entrar}

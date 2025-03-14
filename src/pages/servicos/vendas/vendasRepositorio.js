@@ -65,7 +65,7 @@ export class repositorioVenda{
       } 
       async buscarMercadoria(){
         try {
-            const res = await fetch("https://api.mozsystems.com/aquafish/mercadoria", {  // Adicione 'await' e utilize o this.endpoint
+            const res = await fetch("http://localhost:8080/aquafish/mercadoria", {  // Adicione 'await' e utilize o this.endpoint
               method: 'GET',
               
               headers: {

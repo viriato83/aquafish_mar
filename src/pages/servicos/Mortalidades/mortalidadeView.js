@@ -16,6 +16,7 @@ export default function MortalidadeView() {
   
   const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const repositorio = new repositorioMortalidade();
+  
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // Estado para o ID digitado
@@ -78,7 +79,7 @@ export default function MortalidadeView() {
                   <tr key={i}>
                     <td>{elemento.id}</td>
                     <td>{elemento.descricao}</td>
-                    <td>{elemento.quantidade}</td>
+                    <td>{elemento.quantidade} kg</td>
                     <td>{elemento.data}</td>
                     <td>{elemento.total}</td> {/* Mostra o total no final */}
                   </tr>

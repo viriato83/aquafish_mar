@@ -66,7 +66,7 @@ export default function RegistarVenda() {
           // Total = 0; // Garante que não seja negativo
             Cadastro=false
       
-        }if(Total>0){
+        }if(Total>=0){
           Cadastro=true
         }
       }
@@ -78,7 +78,7 @@ export default function RegistarVenda() {
       "",
       Total, 
       "",
-      0, // A
+      null, // A
       "",
       0,
       0
@@ -149,6 +149,7 @@ export default function RegistarVenda() {
         await mercadoriaRepo.editar2(inputs.mercadoria, inputs.data, saidas);
   
         msg.sucesso("Venda cadastrada com sucesso.");
+        limparFormulario()
       } catch (error) {
         msg.Erro(`Erro ao cadastrar venda.`);
       }
@@ -169,11 +170,11 @@ export default function RegistarVenda() {
             <label>ID:</label>
               <input type="number" value={id ? id : 0} disabled className="id" />
               <br />
-              <label>Quantidade:</label>
+              <label>Quantidade: kg</label>
               <input
                 type="number"
                 className="quantidade"
-                placeholder="Quantidade"
+                placeholder="Quantidade em kg"
                 value={inputs.quantidade}
                 onChange={(e) =>
                   setInputs({ ...inputs, quantidade: e.target.value })

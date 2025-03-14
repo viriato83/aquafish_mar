@@ -10,9 +10,11 @@ import Footer from "../../../components/Footer";
 import RepositorioMercadoria from "./Repositorio";
 import Loading from "../../../components/loading";
 import * as XLSX from "xlsx";  // Import the xlsx library
+import { repositorioVenda } from "../vendas/vendasRepositorio";
 
 export default function MercadoriaView() {
   const repositorio = new RepositorioMercadoria();
+  const repositoriovenda= new repositorioVenda()
   const [modelo, setModelo] = useState([]);
   const [total, setTotal] = useState(0);
   const [id, setId] = useState(""); // Estado para o ID digitado
@@ -21,7 +23,8 @@ const permissao= sessionStorage.getItem("cargo");
   const [loading, setLoading] = useState(false); // Estado para exibir o loading
   const msg = useRef(null); // UseRef para manter uma instância estável
   const moda = useRef(null);
-
+  const [quantidadeTotal, setQuantidadeTotal] = useState(0);
+  const [qSaidas, setQSaidas] = useState(0);
   useEffect(() => {
     // Inicializa as instâncias uma vez
     msg.current = new Mensagem();
@@ -31,9 +34,13 @@ const permissao= sessionStorage.getItem("cargo");
       setLoading(true); // Exibir loading
       try {
         const dadosModelo = await repositorio.leitura();
-        const dadosTotal = await repositorio.total();
+        const dadosVendas= await repositoriovenda.leitura();
+       
+        const quantidadeTotalVendas = dadosModelo.reduce((acc, merc) => acc + merc.valor_total, 0);
         setModelo(dadosModelo);
-        setTotal(dadosTotal);
+        setTotal(dadosModelo.reduce((acc, merc) => acc + merc.quantidade, 0));
+        setQuantidadeTotal(quantidadeTotalVendas);
+        
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
       } finally {
@@ -45,10 +52,34 @@ const permissao= sessionStorage.getItem("cargo");
 
   // Função para exportar os dados para Excel
   const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(modelo);  // Converte os dados da tabela em uma planilha
-    const wb = XLSX.utils.book_new();  // Cria um novo arquivo de Excel
-    XLSX.utils.book_append_sheet(wb, ws, "Mercadorias");  // Adiciona a planilha ao arquivo
-    XLSX.writeFile(wb, "mercadorias.xlsx");  // Gera o arquivo Excel e permite o download
+    const dados = modelo.map((elemento) => ({
+      ID: elemento.idmercadoria,
+      Nome: elemento.nome,
+      Tipo: elemento.tipo,
+      Quantidade: elemento.quantidade,
+      "Data de Entrada": elemento.data_entrada,
+      "Valor Unitário": `${elemento.valor_un} Mt`,
+      "Valor Total": elemento.valor_total.toLocaleString("pt-PT", { minimumFractionDigits: 3 }) + " Mt",
+      "Q Saídas": elemento.q_saidas,
+      "Data de Saída": elemento.data_saida,
+    }));
+
+    dados.push({
+      ID: "TOTAL",
+      Nome: "",
+      Tipo: "",
+      Quantidade: total,
+      "Data de Entrada": "",
+      "Valor Unitário": "",
+      "Valor Total": quantidadeTotal.toLocaleString("pt-PT", { minimumFractionDigits: 3 }) + " Mt",
+      "Q Saídas": "",
+      "Data de Saída": "",
+    });
+
+    const ws = XLSX.utils.json_to_sheet(dados);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Mercadorias");
+    XLSX.writeFile(wb, "mercadorias.xlsx");
   };
 
   return (
@@ -65,11 +96,11 @@ const permissao= sessionStorage.getItem("cargo");
                   <th>ID</th>
                   <th>Nome</th>
                   <th>Tipo</th>
-                  <th>Quantidade</th>
+                  <th>Quantidade Disponivel (kg)</th>
                   <th>Data de Entrada</th>
                   <th>Valor unitário</th>
                   <th>Valor total</th>
-                  <th>Q Saidas</th>
+                  {/* <th>Q Saidas</th> */}
                   <th>Data de Saída</th>
                 </tr>
               </thead>
@@ -88,7 +119,7 @@ const permissao= sessionStorage.getItem("cargo");
                       })}{" "}
                       Mt
                     </td>
-                    <td>{elemento.q_saidas}</td>
+                    {/* <td>{elemento.q_saidas}</td> */}
                     <td>{elemento.data_saida}</td>
                   </tr>
                 ))}
@@ -96,7 +127,8 @@ const permissao= sessionStorage.getItem("cargo");
               <tfoot>
                 <tr>
                   <td colSpan="4">Total</td>
-                  <td>{total}</td>
+                  <td>{total} kg</td>
+                  <td>{quantidadeTotal.toLocaleString("pt-PT", { minimumFractionDigits: 3 })} Mt</td>
                 </tr>
               </tfoot>
             </table>
