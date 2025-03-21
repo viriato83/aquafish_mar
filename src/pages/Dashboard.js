@@ -79,12 +79,19 @@ export default function Dashboard() {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
   const [cards, setCard] = useState([]);
+  const [modelo2, setModelo2] = useState([]);
   const [entrada, setEntradada] = useState(0);
   const [saida, setSaida] = useState(0);
   const [useVenda, setVenda] = useState([]);
   const [useData, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dadosParaExportar, setDadosParaExportar] = useState(null);
+  const [stockSelecionado,setLoteS] = useState(0)
+  const [total, setTotal] = useState(0);
+  const [quantidadetotal, setQuantidadeTotal] = useState(0);
+  const [totalDivida, setTotalDivida] = useState(0);
+  const [quantiDivida,setQuantiDivida] = useState(0);
+ 
  var [quantidadeTotal,setQuant]=useState(0)
   const buscarCargo = () => sessionStorage.getItem("cargo");
   useEffect(() => {
@@ -94,15 +101,49 @@ export default function Dashboard() {
         const vendasT = await vendas.leitura();
         const totalVendas = vendasT.reduce((acc, venda) => acc + venda.quantidade, 0);
         setQuant(totalVendas);
-  
+        const stk= await stok.leitura();
         const mercT = await mercadoria.leitura();
         const totalMerc = mercT.reduce((acc, venda) => acc + venda.quantidade, 0);
+        var valorTotalVendas = 0
+        var quantidadeTotal = 0;
+        var quantidadeTotal2 = 0;
+        var quantidadeDivida= 0;
+         
+
+        vendasT.forEach((e) => {
+              e.mercadorias.forEach((o) => {
+            
+            
+            
+                    if (!stockSelecionado|| (stockSelecionado && stockSelecionado == o.stock.idstock)) {
+                      if (e.status_p == "Em_Divida") {
+                        quantidadeTotal2 += e.quantidade;
+                        quantidadeDivida += e.valor_total;
+                      }else{
+                      quantidadeTotal += e.quantidade;
+                      valorTotalVendas += e.valor_total;
+                      }
+              
+                  } 
+                
+              });
+            });
+      
+        setQuantiDivida(quantidadeDivida);
   
+        setTotal(quantidadeTotal);
+        setTotalDivida(quantidadeTotal2);
+        setQuantidadeTotal(valorTotalVendas);
+
+
+
+
+        setModelo2(stk)
         let cards2 = [
           await clientes.total(),
           totalMerc,
-          await stok.total(),
-          totalVendas
+          total ,
+          totalDivida
         ];
         setCard(cards2);
   
@@ -118,6 +159,9 @@ export default function Dashboard() {
             contador2 += e.quantidade;
           }
         });
+        console.log("Mercadorias:", mercadorias);
+console.log("Quantidade de entradas:", contador1);
+console.log("Valor de entrada no estado:", entrada);
   
         setEntradada(contador1);
         setSaida(totalVendas);
@@ -129,7 +173,7 @@ export default function Dashboard() {
     }
   
     card();
-  }, []); // 🔹 Carrega os cartões uma única vez
+  }, [stockSelecionado,total,totalDivida,entrada]); // 🔹 Carrega os cartões uma única vez
   
   // Novo useEffect para definir os dados de exportação
   useEffect(() => {
@@ -143,11 +187,12 @@ export default function Dashboard() {
         setDadosParaExportar({
           infoBasica: [
             { label: "Total Clientes", valor: cards[0] },
-            { label: "Total Vendas", valor: cards[3] },
+            { label: "Total Vendas", valor: Number(cards[3])+Number(cards[2]) },
             { label: "Total Mercadorias", valor: cards[1] },
-            { label: "Total Stock", valor: cards[2] },
-            { label: "Total Entradas", valor: entrada },
+            { label: "Total Vendas Pagas", valor: cards[2] },
+            { label: "Total Vendas Devidas", valor: cards[3] },
             { label: "Total Saídas", valor: saida },
+            { label: "Total Entradas", valor: entrada },
           ],
           grafico: dados,
           labels: labels,
@@ -212,23 +257,35 @@ export default function Dashboard() {
         <Content>
           {loading && <Loading></Loading>}
           <div className="dashboard">
+          <label>Filtrar por Stock:</label>
+          <select value={stockSelecionado} onChange={(e) => setLoteS(e.target.value)}>
+            {modelo2.map((stock) => (
+              <option key={stock.idstock} value={stock.idstock}>
+                Stock {stock.tipo}
+              </option>
+            ))}
+          </select>
             <div className="card total-clients">
               <h3>Total Clientes</h3>
               <p id="totalClients">{cards[0]}</p>
             </div>
             <div className="card total-sales">
               <h3>Total Vendas</h3>
-              <p id="totalSales">{cards[3]} kg</p>
+              <p id="totalSales">{Number(cards[3])+Number(cards[2])} kg</p>
+            </div>
+            <div className="card total-sales">
+              <h3> Vendas Pagas</h3>
+              <p id="totalSales">{total} kg</p>
+            </div>
+            <div className="card total-sales">
+              <h3> Vendas Em Divida</h3>
+              <p id="totalSales">{totalDivida} kg</p>
             </div>
             {(buscarCargo() === "admin"|| buscarCargo()==="funcionario") && (
               <>
                 <div className="card total-goods">
-                  <h3>Total Mercadorias</h3>
+                  <h3>Total Mercadorias Disponiveis</h3>
                   <p id="totalGoods">{cards[1]} kg</p>
-                </div>
-                <div className="card total-stock">
-                  <h3>Total Stock</h3>
-                  <p id="totalStock">{cards[2]}</p>
                 </div>
                 <div className="card total-stock">
                   <h3>Total Entradas</h3>

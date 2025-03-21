@@ -4,7 +4,7 @@ export default class ClienteRepository{
      
 
     constructor(){
-        this.endpoint ="https://api.mozsystems.com/aquafish/clientes"
+        this.endpoint =" https://api.mozsystems.com/aquafish/clientes"
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
       
@@ -54,7 +54,7 @@ export default class ClienteRepository{
             const data = await res.json();
                     
     
-            console.log('Dados recebidos:', data);
+          
             return data;
           } else {
             console.log('Erro ao fazer a leitura:', res.status);
@@ -97,6 +97,35 @@ export default class ClienteRepository{
           return false;
         }
       }
+    async editar2(Id, cliente) {
+        try {
+          let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
+            method: "PUT", 
+            headers: {
+              "Authorization": "Bearer " + this.token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: Id ,status_p:cliente}) 
+            
+          });
+          console.log(JSON.stringify({ id: Id ,status_p:cliente}))
+     
+    
+          if (res.status==200) {
+            console.log("Editado com sucesso"); 
+            this.mensagem.sucesso("Editado com sucesso");  
+            return true;
+          } else {
+            console.log("Erro ao editar:", res.status);
+            this.mensagem.Erro("Erro ao editar");
+            return false;
+          }
+        } catch (e) {
+          console.error("Erro ao editar:", e);
+          return false;
+        }
+      }
+    
     
       async deletar(Id) {  // Renomeado de 'editar' para 'deletar'
         try {

@@ -10,6 +10,10 @@ export default class Mensagem {
 
     sucesso(texto) {
         if (!this.msg) return;
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
 
         this.msg.className = "mensagem alert alert-success alert-dismissible";
         this.msg.innerHTML = `

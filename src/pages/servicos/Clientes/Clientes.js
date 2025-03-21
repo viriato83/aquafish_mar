@@ -29,7 +29,7 @@ export default function RegistarClientes() {
   };
 
   const criaCliente = () => {
-    return new Clientes(inputs.nome, inputs.localizacao, inputs.telefone);
+    return new Clientes(inputs.nome, inputs.localizacao, inputs.telefone,"Pendente");
   };
 
   const cadastrar = () => {

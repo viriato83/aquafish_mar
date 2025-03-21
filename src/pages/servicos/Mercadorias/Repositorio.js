@@ -4,7 +4,7 @@ export default class  repositorioMercadoria{
 
 
     constructor(){
-        this.endpoint ="https://api.mozsystems.com/aquafish/mercadoria"
+        this.endpoint =" https://api.mozsystems.com/aquafish/mercadoria"
         this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       
@@ -52,7 +52,6 @@ export default class  repositorioMercadoria{
             const data = await res.json();
           
     
-            console.log('Dados recebidos:', data);
             return data;
           } else {
             console.log('Erro ao fazer a leitura:', res.status);

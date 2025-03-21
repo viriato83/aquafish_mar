@@ -67,19 +67,34 @@ export default function ClientesView() {
                   <th>Nome</th>
                   <th>Localização</th>
                   <th>Telefone</th>
-                  <th>Total</th>
+                  <th>Estado de Pagamento</th>
+                
                 </tr>
               </thead>
               <tbody>
-                {modelo.map((elemento, i) => (
-                  <tr key={i}>
+              {modelo.map((elemento, i) => {
+                  let estado=""
+                  if(elemento.status_p=="Pago"){
+                    estado="bg-success p-2"
+                  }
+                  if(elemento.status_p=="Em_Divida"){
+                    estado="bg-danger p-2"
+                  }
+                  if(elemento.status_p=="Pendente"){
+                    estado="bg-warning p-2"
+                  }
+
+                  return(
+                  <tr key={i} className="tr ">
                     <td>{elemento.idclientes}</td>
                     <td>{elemento.nome}</td>
                     <td>{elemento.localizacao}</td>
                     <td>{elemento.telefone}</td>
-                    <td></td>
+                    <td><span className={estado}>{elemento.status_p}</span></td>
+              
                   </tr>
-                ))}
+                  )
+                })}
               </tbody>
               <tfoot>
                 <tr>

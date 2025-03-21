@@ -21,6 +21,7 @@ export default function RegistarVenda() {
     data: "",
     cliente: "",
     mercadoria: "",
+    status_p:"",
   });
 
   const [clientes, setClientes] = useState([]); // Lista dinâmica de clientes
@@ -29,8 +30,10 @@ export default function RegistarVenda() {
   let msg = new mensagem();
   let repositorio = new repositorioVenda();
   const mercadoriaRepo = new repositorioMercadoria();
+  const clienteRepo = new ClienteRepository();
   let Cadastro =true; //
   let saidas=0;
+  let [status,setStaus]=useState(0)
   useEffect(() => {
     // atualizacao 2025
     // Buscar clientes e mercadorias do backend
@@ -38,7 +41,13 @@ export default function RegistarVenda() {
       const clienteRepo = new ClienteRepository();
       const data = await clienteRepo.leitura(); // Assumindo que listar retorna os clientes
       setClientes(data);
+      data.forEach((e)=>{
+          if(e.status_p=="Em_Divida"){
+            setStaus(e.idclientes)
+          }
+      })
     };
+
 
     const fetchMercadorias = async () => {
     
@@ -93,7 +102,8 @@ export default function RegistarVenda() {
       inputs.valorUnitario,
       inputs.data,
       inputs.cliente,
-      inputs.mercadoria
+      inputs.mercadoria,
+      inputs.status_p
     );
   };
 
@@ -104,6 +114,7 @@ export default function RegistarVenda() {
       data: "",
       cliente: "",
       mercadoria: "",
+      status_p:""
     });
   };
 
@@ -134,21 +145,29 @@ export default function RegistarVenda() {
   
       try {
         // Cadastrar venda
-        await repositorio.cadastrar(criaVenda());
-  
-        // Atualizar mercadoria com estoque atualizado
-        await mercadoriaRepo.editar(inputs.mercadoria, novaMercadoria);
-  
-        // Atualizar saídas
-        mercadorias.forEach((merc) => {
-          if (merc.idmercadoria == inputs.mercadoria) {
-            saidas = merc.q_saidas + Number(inputs.quantidade);
+        if(inputs.cliente!=status){
+            await repositorio.cadastrar(criaVenda());
+      
+            // Atualizar mercadoria com estoque atualizado
+            await mercadoriaRepo.editar(inputs.mercadoria, novaMercadoria);
+            if(inputs.status_p){
+              await clienteRepo.editar2(inputs.cliente,inputs.status_p)
+            }
+            
+            // Atualizar saídas
+            mercadorias.forEach((merc) => {
+              if (merc.idmercadoria == inputs.mercadoria) {
+                saidas = merc.q_saidas + Number(inputs.quantidade);
+              }
+            });
+            
+            await mercadoriaRepo.editar2(inputs.mercadoria, inputs.data, saidas);
+            
+            msg.sucesso("Venda cadastrada com sucesso.");
+            limparFormulario();
+          }else{
+            msg.Erro("O cliente Contem Divida")
           }
-        });
-  
-        await mercadoriaRepo.editar2(inputs.mercadoria, inputs.data, saidas);
-  
-        msg.sucesso("Venda cadastrada com sucesso.");
         limparFormulario()
       } catch (error) {
         msg.Erro(`Erro ao cadastrar venda.`);
@@ -215,6 +234,22 @@ export default function RegistarVenda() {
                   </option>
                 ))}
               </select>
+                <br/>
+              <label className="status">Status:</label>
+                    <select
+                      className="status"
+                      value={inputs.status_p}
+                      onChange={(e) =>
+                        setInputs({ ...inputs, status_p: e.target.value })
+                      }
+                    >
+                      <option value="">Selecione o Estado de pagamento</option>
+                      <option key="1s" value="Pago">Pago</option>
+                      <option key="2s" value="Em_Divida">Em Dívida</option>
+                    </select>
+                    
+            
+           
               <br />
               <label>Mercadoria:</label>
               <select

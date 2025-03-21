@@ -11,33 +11,75 @@ import { repositorioVenda } from "./vendasRepositorio";
 import Loading from "../../../components/loading";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import ClienteRepository from "../Clientes/ClienteRepository";
+import repositorioStock from "../Stock.js/Repositorio";
+import repositorioMercadoria from "../Mercadorias/Repositorio";
 
 export default function VendasView() {
   const repositorio = new repositorioVenda();
+  const repoStco= new repositorioStock()
+  const repositorioMerc= new repositorioMercadoria()
   const [modelo, setModelo] = useState([]);
+  const [modelo2, setModelo2] = useState([]);
   const [total, setTotal] = useState(0);
   const [quantidadeTotal, setQuantidadeTotal] = useState(0);
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const repositorioClient= new ClienteRepository()
   const msg = useRef(null);
   const moda = useRef(null);
-
+  const [stockSelecionado,setLoteS] = useState(0)
+  const [totalDivida, setTotalDivida] = useState(0);
+  const [quantiDivida,setQuantiDivida] = useState(0);
+ 
   useEffect(() => {
     msg.current = new Mensagem();
     moda.current = new Modal();
-
+    
     async function carregarDados() {
       setLoading(true);
       try {
         const dadosModelo = await repositorio.leitura();
+        const repositoriomerc = await repositorioMerc.leitura();
+        const repoStck = await repoStco.leitura();
         const dadosTotal = await repositorio.total();
         const quantidadeTotalVendas = dadosModelo.reduce((acc, venda) => acc + venda.valor_total, 0);
+        var valorTotalVendas = 0
+        var quantidadeTotal = 0;
+        var quantidadeTotal2 = 0;
+        var quantidadeDivida= 0;
+         
 
+        dadosModelo.forEach((e) => {
+              e.mercadorias.forEach((o) => {
+            
+            
+            
+                    if (!stockSelecionado|| (stockSelecionado && stockSelecionado == o.stock.idstock)) {
+                      if (e.status_p == "Em_Divida") {
+                        quantidadeTotal2 += e.quantidade;
+                        quantidadeDivida += e.valor_total;
+                      }else{
+                      quantidadeTotal += e.quantidade;
+                      valorTotalVendas += e.valor_total;
+                      }
+              
+                  } 
+                
+              });
+            });
+        setModelo2(repoStck)
+        setQuantiDivida(quantidadeDivida);
         setModelo(dadosModelo);
-        setTotal(dadosModelo.reduce((acc, merc) => acc + merc.quantidade, 0));
-        setQuantidadeTotal(quantidadeTotalVendas);
+        setTotal(quantidadeTotal);
+        setTotalDivida(quantidadeTotal2);
+        setQuantidadeTotal(valorTotalVendas);
+        localStorage.setItem('quantidadeVendas', quantidadeTotal.toString());
+        localStorage.setItem('valorTotalVendas', JSON.stringify(valorTotalVendas));
+        localStorage.setItem('quantidadeVendasD', quantidadeTotal2.toString());
+        localStorage.setItem('valorTotalVendasD', JSON.stringify(quantidadeDivida));
+      
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
         msg.current.Erro("Erro ao carregar dados.");
@@ -45,9 +87,10 @@ export default function VendasView() {
         setLoading(false);
       }
     }
+   
 
     carregarDados();
-  }, []);
+  }, [stockSelecionado]);
 
   const exportarParaExcel = () => {
     const dados = modelo.map((venda) => ({
@@ -79,7 +122,11 @@ export default function VendasView() {
     saveAs(blob, "relatorio_vendas.xlsx");
   };
   
+  async function pagar(id,id2){
+    await repositorioClient.editar2(id,"Pago")
+    await repositorio.editar2(id2,"Pago")
 
+  }
   const permissao = sessionStorage.getItem("cargo");
 
   return (
@@ -89,6 +136,14 @@ export default function VendasView() {
       <Conteinner>
         <Slider />
         <Content>
+        <label>Filtrar por Stock:</label>
+          <select value={stockSelecionado} onChange={(e) => setLoteS(e.target.value)}>
+            {modelo2.map((stock) => (
+              <option key={stock.idstock} value={stock.idstock}>
+                Stock {stock.tipo}
+              </option>
+            ))}
+          </select>
           <div className="tabela">
             <table>
               <thead>
@@ -100,34 +155,82 @@ export default function VendasView() {
                   <th>Valor Total</th>
                   <th>Cliente</th>
                   <th>Mercadorias</th>
+                  <th>Status</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {modelo.map((elemento, i) => (
-                  <tr key={i}>
-                    <td>{elemento.idvendas}</td>
-                    <td>{elemento.quantidade} kg</td>
-                    <td>{elemento.valor_uni} Mt</td>
-                    <td>{elemento.data}</td>
-                    <td>
-                      {elemento.valor_total.toLocaleString("pt-PT", {
-                        minimumFractionDigits: 3,
-                      })} Mt
-                    </td>
-                    <td>{elemento.cliente.nome}</td>
-                    <td>
-                      {elemento.mercadorias.map((mercadoria) => `${mercadoria.idmercadoria} : ${mercadoria.nome}`).join(", ")}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan="2">Total</td>
-                  <td colSpan="2">{total}kg</td>
-                  <td>{quantidadeTotal.toLocaleString("pt-PT", { minimumFractionDigits: 3 })} Mt</td>
-                </tr>
-              </tfoot>
+              {modelo.filter((elemento) =>
+                  !stockSelecionado || elemento.mercadorias.some((e) => e.stock.idstock == stockSelecionado)
+                )
+                .map((elemento, i) => {
+                   let estado=""
+                   if(elemento.status_p==="Pago"){
+                    estado="bg-success p-2"
+                  }
+                  if(elemento.status_p==="Em_Divida"){
+                    estado="bg-danger p-2"
+                  }
+                  if(elemento.status_p==="Pendente"){
+                    estado="bg-warning p-2"
+                  }
+               
+                        return (
+                  
+                            <tr key={i}>
+                              <td>{elemento.idvendas}</td>
+                              <td>{elemento.quantidade} kg</td>
+                              <td>{elemento.valor_uni} Mt</td>
+                              <td>{elemento.data}</td>
+                              <td>
+                                {elemento.valor_total.toLocaleString("pt-PT", {
+                                  minimumFractionDigits: 3,
+                                })} Mt
+                              </td>
+                              <td>{elemento.cliente.nome}</td>
+                              <td>
+                                {elemento.mercadorias.map((mercadoria) => `${mercadoria.idmercadoria} : ${mercadoria.nome}`).join(", ")}
+                              </td>
+                              <td><span className={estado}>{elemento.status_p}</span></td>
+                                  <td>{elemento.status_p=="Em_Divida"&&(
+                                      <button className="btn bg-success" onClick={()=>{
+                                        moda.current.Abrir("Deseja Validar o pagamento do " + elemento.cliente.nome);
+                                        document.querySelector(".sim").addEventListener("click", () => {
+                                          try{
+
+                                            pagar(elemento.cliente.idclientes,elemento.idvendas)
+                                          }catch{
+                                            console.log("erro")
+                                          }finally{
+
+                                            window.location.reload();
+                                          }
+                                        });
+                                        document.querySelector(".nao").addEventListener("click", () => {
+                                          moda.current.fechar();
+                                        });
+                                      }}>Pagar</button>
+                                  )}</td>
+
+                            </tr>
+                           
+                           
+                     ) })}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                      <td colSpan="4">Total Pago</td>
+                      <td  >{total}</td>
+                      <td>{quantidadeTotal.toLocaleString("pt-PT", { minimumFractionDigits: 3 })} Mt</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="4">Em dívida</td>
+                      <td>{totalDivida}</td>
+                      <td>{quantiDivida.toLocaleString("pt-PT", { minimumFractionDigits: 3 })} Mt</td>
+                    </tr>
+
+                    </tfoot>
+                  
             </table>
             {(permissao === "admin" || permissao === "funcionario") && (
               <div className="crud">
