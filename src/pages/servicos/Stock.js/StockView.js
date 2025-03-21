@@ -83,11 +83,7 @@ export default function StockView() {
                     <td>{elemento.idstock}</td>
                     <td>{elemento.quantidade} kg</td>
                     <td>{elemento.tipo}</td>
-                    <td>
-                      {elemento.mercadorias.map((merc) => {
-                        return `${merc.idmercadoria}- ${merc.nome} ;`;
-                      })}
-                    </td>
+                   
                     <td>{elemento.total}</td> {/* Assuming you have the total here */}
                   </tr>
                 ))}

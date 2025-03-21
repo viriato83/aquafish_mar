@@ -6,7 +6,7 @@ export default class repositorioStock{
 
 
     constructor(){
-        this.endpoint =" https://api.mozsystems.com/aquafish/stock"
+        this.endpoint ="https://api.mozsystems.com/aquafish/stock"
         this.mensagem= new mensagem()
         this.token=sessionStorage.getItem("token");
   
@@ -53,7 +53,7 @@ export default class repositorioStock{
             const data = await res.json();
                     
     
-           
+          
             return data;
           } else {
             console.log('Erro ao fazer a leitura:', res.status);
