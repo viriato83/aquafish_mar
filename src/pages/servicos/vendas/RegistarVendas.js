@@ -62,13 +62,13 @@ export default function RegistarVenda() {
 
   //atualizacao 2025
 
-  const criaMercadoria = () => {
+  const criaMercadoria = (quantidade) => {
     let Total = 0; // Inicializa o total
   
     mercadorias.map((merc) => {
     
       if (merc.idmercadoria == inputs.mercadoria) {
-            Total = merc.quantidade - Number(inputs.quantidade);
+            Total = merc.quantidade - Number(quantidade);
         // Valida se a quantidade restante é válida
         if (Total <= 0) {
           // window.alert("Quantidade insuficiente em estoque.");
@@ -121,6 +121,19 @@ export default function RegistarVenda() {
   const cadastrar = async () => {
     if (id) {
       repositorio.editar(id, criaVenda());
+      if(inputs.mercadoria){
+        let vendaT= await repositorio.buscarVenda(id);
+        let novaV=0;
+        if(inputs.quantidade>vendaT.quantidade){
+          novaV=vendaT.quantidade-inputs.quantidade
+         
+        }if(inputs.quantidade<vendaT.quantidade){
+          novaV=vendaT.quantidade-inputs.quantidade
+        
+        }
+               const novaMercadoria = criaMercadoria(novaV);
+               await mercadoriaRepo.editar(inputs.mercadoria, novaMercadoria);
+       }
       msg.sucesso("Venda editada com sucesso.");
       limparFormulario();
     } else {
@@ -136,7 +149,7 @@ export default function RegistarVenda() {
       }
   
       // Verificar estoque antes do cadastro
-      const novaMercadoria = criaMercadoria();
+      const novaMercadoria = criaMercadoria(inputs.quantidade);
   
       if (!Cadastro) {
         msg.Erro("Estoque insuficiente.");
