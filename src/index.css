@@ -766,6 +766,15 @@ canvas {
   .sidebar.active {
     left: 0;  /* Torna a sidebar visível quando ativa */
   }
+  .content .tabela table {
+    width: 100%;
+    /* max-width: 450px; */
+    margin: 20px 0;
+    margin-left: 300px;
+    
+    
+
+  }
 
   .sidebar ul li a {
     padding: 10px 20px;  /* Ajusta o padding */
