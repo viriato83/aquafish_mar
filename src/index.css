@@ -833,3 +833,20 @@ canvas {
  }
   
 }
+@media (max-width: 720px) {
+  .content .tabela table {
+    width: 100%;
+    /* max-width: 450px; */
+    margin: 20px 0;
+    margin-left: 200px;
+    
+    
+
+  }
+  .content{
+    font-size: 10px;
+    overflow-x: scroll;
+    width: 100%;
+  }
+
+}
