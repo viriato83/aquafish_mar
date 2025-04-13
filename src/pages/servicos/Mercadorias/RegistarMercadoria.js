@@ -32,7 +32,7 @@ export default function RegistarMercadoria() {
   useEffect(() => {
     // msg =;
 
-
+    
     // Buscar estoques do backend
     const fetchEstoques = async () => {
       const estoqueRepo = new repositorioStock();
@@ -125,7 +125,7 @@ export default function RegistarMercadoria() {
                 type="number"
                 className="quantidade"
                 placeholder="Quantidade kg"
-                value={inputs.quantidade}
+                value={inputs.quantidade==null?null:inputs.quantidade}
                 onChange={(e) =>
                   setInputs({ ...inputs, quantidade: e.target.value })
                 }
