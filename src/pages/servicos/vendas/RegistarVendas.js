@@ -127,6 +127,9 @@ export default function RegistarVenda() {
        }
       msg.sucesso("Venda editada com sucesso.");
       limparFormulario();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } else {
       if (
         !inputs.quantidade ||
@@ -174,6 +177,9 @@ export default function RegistarVenda() {
             msg.Erro("O cliente Contem Divida")
           }
         limparFormulario()
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } catch (error) {
         msg.Erro(`Erro ao cadastrar venda.`);
       }

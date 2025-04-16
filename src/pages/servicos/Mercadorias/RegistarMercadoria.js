@@ -67,6 +67,9 @@ export default function RegistarMercadoria() {
       repositorio.editar(id, criaMercadoria());
       msg.sucesso("Mercadoria editada com sucesso.");
       limparFormulario(); // Limpa o formulário após editar
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } else {
       if (
         !inputs.nome ||
@@ -82,6 +85,9 @@ export default function RegistarMercadoria() {
         localStorage.setItem("quantidade",JSON.stringify(quantidade))
         msg.sucesso("Mercadoria cadastrada com sucesso.");
         limparFormulario(); // Limpa o formulário após cadastrar
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     }
   };
