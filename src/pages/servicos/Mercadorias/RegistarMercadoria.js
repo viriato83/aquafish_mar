@@ -46,7 +46,7 @@ export default function RegistarMercadoria() {
   }, []);
 
   const criaMercadoria = () => {
-    return new Mercadoria(inputs.nome,inputs.tipo,inputs.quantidade,inputs.quantidade,inputs.dataEntrada,inputs.valorUnitario,inputs.dataSaida,usuario,inputs.estoque) 
+    return new Mercadoria(inputs.nome,"Entrada",inputs.quantidade,inputs.quantidade,inputs.dataEntrada,inputs.valorUnitario,inputs.dataSaida,usuario,inputs.estoque) 
       
   };
   const limparFormulario = () => {
@@ -70,7 +70,7 @@ export default function RegistarMercadoria() {
     } else {
       if (
         !inputs.nome ||
-        !inputs.tipo ||
+    
         !inputs.quantidade ||
         !inputs.dataEntrada ||
         !inputs.valorUnitario ||
@@ -110,7 +110,7 @@ export default function RegistarMercadoria() {
              
                 onChange={(e) => setInputs({ ...inputs, nome: e.target.value })}
               />
-              <br />
+              {/* <br />
               <label>Tipo:</label>
               <input
                 type="text"
@@ -118,7 +118,7 @@ export default function RegistarMercadoria() {
                 placeholder="Saída ou Entrada"
                 value={inputs.tipo}
                 onChange={(e) => setInputs({ ...inputs, tipo: e.target.value })}
-              />
+              /> */}
               <br />
               <label>Quantidade: kg</label>
               <input
@@ -151,7 +151,7 @@ export default function RegistarMercadoria() {
                   setInputs({ ...inputs, valorUnitario: e.target.value })
                 }
               />
-              <br />
+              {/* <br />
               <label>Data de Saída: --Opcional</label>
               <input
                 type="date"
@@ -160,7 +160,7 @@ export default function RegistarMercadoria() {
                 onChange={(e) =>
                   setInputs({ ...inputs, dataSaida: e.target.value })
                 }
-              />
+              /> */}
               <br />
               <label>Estoque:</label>
               <select
