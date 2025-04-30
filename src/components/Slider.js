@@ -26,7 +26,7 @@ export default function Slider() {
 
   return (
     <>
-  
+    
         <button
           className={`hamburger-menu ${sidebarOpen ? "open" : ""}`}
           onClick={toggleSidebar}
@@ -37,11 +37,16 @@ export default function Slider() {
 
       <nav className={`sidebar ${sidebarOpen ? "active" : ""}`}>
         <ul>
+          
+        {buscarCargo() === "admin" || buscarCargo() === "gerente" ? (
+          <>
           <li>
             <Link id="dashboard" to="/" className="toggle-menu">
               Dashboard
             </Link>
           </li>
+          </>
+        ):null}
           <li>
             <Link onClick={() =>{ toggleMenu("clientes-menu"); setActive(!active)}} className=  {` dropdown-toggle toggle-menu bg-${active? "primary":""}`}>
               Clientes

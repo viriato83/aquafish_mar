@@ -13,12 +13,14 @@ import RegistarMortalidade from "./pages/servicos/Mortalidades/registMortalidade
 import MortalidadeView from "./pages/servicos/Mortalidades/mortalidadeView";
 
 export default function AppRouter() {
-  
+  const permissao = sessionStorage.getItem("cargo");
   
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        { (permissao === "admin" || permissao === "gerente" )
+      ? <Route path="/" element={<Dashboard />} /> 
+      : <Route path="/" element={<ClientesView />} />}
         <Route path="/registar-clientes/:id" element={<Clientes />} />
         <Route path="/registarclientes" element={<Clientes />} />
         <Route path="/clientesview" element={<ClientesView />} />

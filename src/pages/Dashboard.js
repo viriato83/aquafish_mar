@@ -326,7 +326,8 @@ export default function Dashboard() {
               <h3> Vendas Em Divida</h3>
               <p id="totalSales">{totalDivida.toFixed(2)} kg</p>
             </div>
-            {(buscarCargo() === "admin"|| buscarCargo()==="funcionario") && (
+            {(buscarCargo() === "admin"|| buscarCargo()==="gerente") && (
+              
               <>
                 <div className="card total-goods">
                   <h3>Total Mercadorias Disponiveis</h3>

@@ -177,6 +177,7 @@ const permissao= sessionStorage.getItem("cargo");
                 </tr>
               </tfoot>
             </table>
+            {(permissao === "admin" || permissao === "gerente") && ( 
             <div className="crud">
               <button
                 className="editar"
@@ -224,6 +225,7 @@ const permissao= sessionStorage.getItem("cargo");
               </button>
               {/* Botão para exportar para Excel */}
             </div>
+            )}
             {permissao==="admin" &&(  <button
                 onClick={exportToExcel}
                 className="btn-export"

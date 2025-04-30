@@ -96,6 +96,7 @@ export default function StockView() {
                 </tr>
               </tfoot>
             </table>
+            {(permissao === "admin" || permissao === "gerente") && ( 
             <div className="crud">
               <button
                 className="editar"
@@ -142,6 +143,9 @@ export default function StockView() {
                 Apagar
               </button>
             </div>
+            )
+
+            }
             {permissao==="admin" &&( <button onClick={exportToExcel} className="btn-export">
                 Exportar para Excel
               </button>)}

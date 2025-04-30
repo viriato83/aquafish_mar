@@ -235,7 +235,7 @@ export default function VendasView() {
                     </tfoot>
                   
             </table>
-            {(permissao === "admin" || permissao === "funcionario") && (
+            {(permissao === "admin" || permissao === "gerente") && (
               <div className="crud">
                 <button className="editar" onClick={() => {
                   if (id) {
