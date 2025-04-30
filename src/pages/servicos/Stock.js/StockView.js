@@ -96,7 +96,7 @@ export default function StockView() {
                 </tr>
               </tfoot>
             </table>
-            {(permissao === "admin" || permissao === "gerente") && ( 
+            {(permissao == "admin" || permissao == "gerente") && ( 
             <div className="crud">
               <button
                 className="editar"

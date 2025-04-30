@@ -18,7 +18,7 @@ export default function AppRouter() {
   return (
     <Router>
       <Routes>
-        { (permissao === "admin" || permissao === "gerente" )
+        { (permissao === "admin" || permissao ==="gerente" )
       ? <Route path="/" element={<Dashboard />} /> 
       : <Route path="/" element={<ClientesView />} />}
         <Route path="/registar-clientes/:id" element={<Clientes />} />
