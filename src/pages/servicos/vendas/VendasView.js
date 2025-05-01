@@ -32,6 +32,29 @@ export default function VendasView() {
   const [stockSelecionado,setLoteS] = useState(0)
   const [totalDivida, setTotalDivida] = useState(0);
   const [quantiDivida,setQuantiDivida] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+const [mensagem, setMensagem] = useState("");
+const [clienteParaPagar, setClienteParaPagar] = useState(null);
+
+const handlePagarClick = (elemento) => {
+  setMensagem(`Deseja validar o pagamento do ${elemento.cliente.nome}?`);
+  setClienteParaPagar(elemento);
+  setModalOpen(true);
+};
+
+const confirmarPagamento = async () => {
+  try {
+    await pagar(clienteParaPagar.cliente.idclientes, clienteParaPagar.idvendas);
+    alert("Pagamento efetuado com sucesso!");
+  } catch (err) {
+    console.error("Erro ao pagar:", err);
+    alert("Erro ao efetuar pagamento.");
+  } finally {
+    setModalOpen(false);
+    window.location.reload(); // Só recarrega após conclusão
+  }
+};
+
  
   useEffect(() => {
     msg.current = new Mensagem();
@@ -195,26 +218,25 @@ export default function VendasView() {
                                 {elemento.mercadorias.map((mercadoria) => `${mercadoria.idmercadoria} : ${mercadoria.nome}`).join(", ")}
                               </td>
                               <td><span className={estado}>{elemento.status_p}</span></td>
-                                  <td>{elemento.status_p=="Em_Divida"&&(
-                                      <button className="btn bg-success" onClick={()=>{
-                                        moda.current.Abrir("Deseja Validar o pagamento do " + elemento.cliente.nome);
-                                        document.querySelector(".sim").addEventListener("click", () => {
-                                          try{
+                              <>
+                                    <td>
+                                      {elemento.status_p === "Em_Divida" && (
+                                        <button className="btn bg-success" onClick={() => handlePagarClick(elemento)}>Pagar</button>
+                                      )}
+                                    </td>
 
-                                            pagar(elemento.cliente.idclientes,elemento.idvendas)
-                                          }catch{
-                                            console.log("erro")
-                                          }finally{
-
-                                            window.location.reload();
-                                          }
-                                        });
-                                        document.querySelector(".nao").addEventListener("click", () => {
-                                          moda.current.fechar();
-                                        });
-                                      }}>Pagar</button>
-                                  )}</td>
-
+                                    {modalOpen && (
+                                      <div className="modal">
+                                        <div className="modal-content">
+                                        <p>{mensagem}</p>
+                                        <div class="buttons">
+                                        <button className=" sim" onClick={confirmarPagamento}>Sim</button>
+                                        <button className=" nao" onClick={() => setModalOpen(false)}>Não</button>
+                                        </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </>
                             </tr>
                            
                            
