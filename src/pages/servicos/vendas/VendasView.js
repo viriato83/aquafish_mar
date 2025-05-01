@@ -45,7 +45,7 @@ const handlePagarClick = (elemento) => {
 const confirmarPagamento = async () => {
   try {
     await pagar(clienteParaPagar.cliente.idclientes, clienteParaPagar.idvendas);
-    alert("Pagamento efetuado com sucesso!");
+
   } catch (err) {
     console.error("Erro ao pagar:", err);
     alert("Erro ao efetuar pagamento.");
