@@ -29,7 +29,9 @@ export default function VendasView() {
   const repositorioClient= new ClienteRepository()
   const msg = useRef(null);
   const moda = useRef(null);
-  const [stockSelecionado,setLoteS] = useState(0)
+  const [stockSelecionado,setLoteS] = useState(0);
+  const [mesSelecionado, setMesSelecionado] = useState("");
+
   const [totalDivida, setTotalDivida] = useState(0);
   const [quantiDivida,setQuantiDivida] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
@@ -75,11 +77,16 @@ const confirmarPagamento = async () => {
          
 
         dadosModelo.forEach((e) => {
+          
+          const dataMercadoria = new Date(e.data);
+          const anoMes = `${dataMercadoria.getFullYear()}-${String(dataMercadoria.getMonth() + 1).padStart(2, '0')}`;
+          
+         
               e.mercadorias.forEach((o) => {
             
             
             
-                    if (!stockSelecionado|| (stockSelecionado && stockSelecionado == o.stock.idstock)) {
+                if ( (!mesSelecionado || anoMes === mesSelecionado)&&(!stockSelecionado|| (stockSelecionado && stockSelecionado == o.stock.idstock))) {
                       if (e.status_p == "Em_Divida") {
                         quantidadeTotal2 += e.quantidade;
                         quantidadeDivida += e.valor_total;
@@ -113,7 +120,7 @@ const confirmarPagamento = async () => {
    
 
     carregarDados();
-  }, [stockSelecionado]);
+  }, [stockSelecionado,mesSelecionado]);
 
   const exportarParaExcel = () => {
     const dados = modelo.map((venda) => ({
@@ -170,6 +177,14 @@ const confirmarPagamento = async () => {
               </option>
             ))}
           </select>
+          <label>Filtrar por Mês:</label>
+        <input
+          type="month"
+          value={mesSelecionado}
+          onChange={(e) => setMesSelecionado(e.target.value)}
+          style={{ marginBottom: "1rem", display: "block" }}
+        />
+
           <div className="tabela">
             <table>
               <thead>
@@ -186,9 +201,13 @@ const confirmarPagamento = async () => {
                 </tr>
               </thead>
               <tbody>
-              {modelo.filter((elemento) =>
-                  !stockSelecionado || elemento.mercadorias.some((e) => e.stock.idstock == stockSelecionado)
-                )
+              {modelo.filter((elemento) =>{
+                  const dataVenda = new Date(elemento.data);
+                  const anoMes = `${dataVenda.getFullYear()}-${String(dataVenda.getMonth() + 1).padStart(2, '0')}`;
+                  
+              
+                return  ( !mesSelecionado || anoMes === mesSelecionado) &&(!stockSelecionado || elemento.mercadorias.some((e) => e.stock.idstock == stockSelecionado))
+                })
                 .map((elemento, i) => {
                    let estado=""
                    if(elemento.status_p==="Pago"){

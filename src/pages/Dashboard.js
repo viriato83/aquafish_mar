@@ -194,7 +194,7 @@ function exportarParaExcel(dados, nomeArquivo = "dados.xlsx") {
         let contador2 = 0;
   
         mercadorias.forEach((e) => {
-          console.log(e)
+     
           const dataMercadoria = new Date(e.data_entrada);
           const anoMes = `${dataMercadoria.getFullYear()}-${String(dataMercadoria.getMonth() + 1).padStart(2, '0')}`;
           
