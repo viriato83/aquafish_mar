@@ -4,7 +4,7 @@ export class repositorioVenda{
 
    
     constructor(){
-      this.endpoint =" https://api.mozsystems.com/tenant1/vendas"
+      this.endpoint ="  https://api.mozsystems.com/tenant1/vendas"
       this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
     

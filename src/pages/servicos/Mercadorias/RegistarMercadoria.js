@@ -27,7 +27,7 @@ export default function RegistarMercadoria() {
   const { id } = useParams();
   let msg= new mensagem();
   let repositorio = new repositorioMercadoria();
-  const usuario= localStorage.getItem("idusuarios");
+  const usuario= sessionStorage.getItem("idusuarios");
 
   useEffect(() => {
     // msg =;
@@ -69,7 +69,7 @@ export default function RegistarMercadoria() {
       limparFormulario(); // Limpa o formulário após editar
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
+      }, 2000);
     } else {
       if (
         !inputs.nome ||
@@ -87,7 +87,7 @@ export default function RegistarMercadoria() {
         limparFormulario(); // Limpa o formulário após cadastrar
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 2000);
       }
     }
   };

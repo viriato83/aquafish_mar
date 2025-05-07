@@ -137,10 +137,14 @@ const permissao= sessionStorage.getItem("cargo");
                   {/* <th>Q Saidas</th> */}
                   <th>Data de Saída</th>
                   <th>Stock</th>
+                  {(permissao === "admin" )&&
+                          <th> Usuario</th>
+                          }
                 </tr>
               </thead>
               <tbody>
               {modelo.map((elemento, i) => {
+                console.log(elemento)
                     if (!stockSelecionado || elemento.stock.idstock == stockSelecionado) {
                       return (
                         <tr key={i}>
@@ -160,6 +164,9 @@ const permissao= sessionStorage.getItem("cargo");
                           {/* <td>{elemento.q_saidas}</td> */}
                           <td>{elemento.data_saida}</td>
                           <td>{elemento.stock.idstock} : {elemento.stock.tipo}</td>
+                            {(permissao === "admin" )&&
+                            <td>{elemento.usuario!=null?elemento.usuario.login:0}</td>
+                            }
                         </tr>
                       );
                     } else {

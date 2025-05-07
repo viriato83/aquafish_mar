@@ -26,6 +26,7 @@ export default function RegistarVenda() {
 
   const [clientes, setClientes] = useState([]); // Lista dinâmica de clientes
   const [mercadorias, setMercadorias] = useState([]); // Lista dinâmica de mercadorias
+  const usuario= sessionStorage.getItem("idusuarios");
   const { id } = useParams();
   let msg = new mensagem();
   let repositorio = new repositorioVenda();
@@ -93,7 +94,8 @@ export default function RegistarVenda() {
       inputs.data,
       inputs.cliente,
       inputs.mercadoria,
-      inputs.status_p
+      inputs.status_p,
+      usuario
     );
   };
 
@@ -129,7 +131,7 @@ export default function RegistarVenda() {
       limparFormulario();
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
+      }, 2000);
     } else {
       if (
         !inputs.quantidade ||
@@ -177,9 +179,9 @@ export default function RegistarVenda() {
             msg.Erro("O cliente Contem Divida")
           }
         limparFormulario()
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000);
       } catch (error) {
         msg.Erro(`Erro ao cadastrar venda.`);
       }

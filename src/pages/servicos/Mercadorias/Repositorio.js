@@ -4,7 +4,7 @@ export default class  repositorioMercadoria{
 
 
     constructor(){
-        this.endpoint =" https://api.mozsystems.com/tenant1/mercadoria"
+        this.endpoint ="  https://api.mozsystems.com/tenant1/mercadoria"
         this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       
@@ -15,8 +15,8 @@ export default class  repositorioMercadoria{
             method:"POST",
             body: JSON.stringify(Mercadoria),
             headers: {
-              "Authorization":  `Bearer ${this.token}`,
-              'Content-Type': 'application/json'
+              "Authorization":`Bearer ${this.token}`,
+              'Content-Type':'application/json'
             }
           });
     

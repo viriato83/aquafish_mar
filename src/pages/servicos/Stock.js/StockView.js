@@ -74,7 +74,9 @@ export default function StockView() {
                   <th>ID</th>
                   <th>Quantidade</th>
                   <th>Tipo</th>
-                  {/* <th>Mercadoria</th> */}
+                            {(permissao === "admin" )&&
+                             <th>Usuario</th>
+                            }
                  
                 </tr>
               </thead>
@@ -84,6 +86,9 @@ export default function StockView() {
                     <td>{elemento.idstock}</td>
                     <td>{elemento.quantidade} </td>
                     <td>{elemento.tipo}</td>
+                   {(permissao === "admin" )&&
+                            <td>{elemento.usuario!=null?elemento.usuario.login:0}</td>
+                            }
                    
                    
                   </tr>
