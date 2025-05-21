@@ -4,7 +4,7 @@ export default class ClienteRepository{
      
 
     constructor(){
-        this.endpoint =" http://localhost:8080/tenant1/clientes"
+        this.endpoint =" https://api.mozsystems.com/tenant1/clientes"
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
       
