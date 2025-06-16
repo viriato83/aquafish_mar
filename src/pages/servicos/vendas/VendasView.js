@@ -159,6 +159,7 @@ const confirmarPagamento = async () => {
   }
   const permissao = sessionStorage.getItem("cargo");
 
+
   return (
     <>
       {loading && <Loading />} 
@@ -300,6 +301,7 @@ const confirmarPagamento = async () => {
                   if (id) {
                     moda.current.Abrir("Deseja apagar o " + id);
                     document.querySelector(".sim").addEventListener("click", () => {
+
                       repositorio.deletar(id);
                       moda.current.fechar();
                     });
