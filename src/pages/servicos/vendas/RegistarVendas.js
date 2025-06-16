@@ -275,26 +275,27 @@ export default function RegistarVenda() {
                 <option value="">Selecione uma mercadoria</option>
 
                 {Object.entries(
-                  mercadorias.reduce((grupos, merc) => {
-                    const stockLabel = `Stock ${merc.stock?.idstock} - ${merc.stock?.tipo}`;
-                    if (!grupos[stockLabel]) grupos[stockLabel] = [];
-                    grupos[stockLabel].push(merc);
-                    return grupos;
-                  }, {})
-                ).map(([stockLabel, mercadoriasDoGrupo]) => (
-                  <optgroup key={stockLabel} label={stockLabel}>
-                    {mercadoriasDoGrupo
-                      .filter(mercadoria => Number(mercadoria.quantidade) > 0)
-                      .map(mercadoria => (
-                        <option
-                          key={mercadoria.idmercadoria}
-                          value={mercadoria.idmercadoria}
-                        >
-                          {mercadoria.nome} :: {mercadoria.quantidade} Kg
-                        </option>
-                    ))}
-                  </optgroup>
-                ))}
+  mercadorias
+    .filter(merc => merc.quantidade > 0) // ← filtra antes de agrupar
+    .reduce((grupos, merc) => {
+      const stockLabel = `Stock ${merc.stock?.idstock} - ${merc.stock?.tipo}`;
+      if (!grupos[stockLabel]) grupos[stockLabel] = [];
+      grupos[stockLabel].push(merc);
+      return grupos;
+    }, {})
+).map(([stockLabel, mercadoriasDoGrupo]) => (
+  <optgroup key={stockLabel} label={stockLabel}>
+    {mercadoriasDoGrupo.map(mercadoria => (
+      <option
+        key={mercadoria.idmercadoria}
+        value={mercadoria.idmercadoria}
+      >
+        {mercadoria.nome} :: {mercadoria.quantidade} Kg
+      </option>
+    ))}
+  </optgroup>
+))}
+
 
               </select>
               <br />
