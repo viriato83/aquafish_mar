@@ -12,6 +12,9 @@ import { repositorioVenda } from "./servicos/vendas/vendasRepositorio";
 import Loading from "../components/loading";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { AlertTriangle, Bell, TrendingDown } from "lucide-react";
+import BotaoNotificacoes from "../components/BotaoNotificacoes";
+import { data } from "react-router";
 
 export default function Dashboard() {
   const clientes = new ClienteRepository();
@@ -31,6 +34,7 @@ export default function Dashboard() {
   const [stockSelecionado,setLoteS] = useState(0)
   const [mesSelecionado, setMesSelecionado] = useState("");
   const [Dados2,setDados2]=useState([])
+  const [Dados3,setDados3]=useState([])
   const [total, setTotal] = useState(0);
   const [quantidadetotal, setQuantidadeTotal] = useState(0);
   const [totalDivida, setTotalDivida] = useState(0);
@@ -38,6 +42,7 @@ export default function Dashboard() {
   const [totalMerc ,setTotalMerc] = useState(0);
   const pieChartRef = useRef(null);
   const pieChartInstanceRef = useRef(null);
+
   
  var [quantidadeTotal,setQuant]=useState(0)
   const buscarCargo = () => sessionStorage.getItem("cargo");
@@ -196,6 +201,7 @@ function exportarParaExcel(dados, nomeArquivo = "dados.xlsx") {
       setLoading(true);
       try {
         const vendasT = await vendas.leitura();
+        setDados3 (await vendas.leitura())
         // console.log(vendasT.map((venda)=>
         //   venda.mercadorias.map((e)=>{
         //     return e.nome
@@ -403,15 +409,20 @@ function exportarParaExcel(dados, nomeArquivo = "dados.xlsx") {
         });
       }
     }, [cards]);
-    
   
+    
   return (
     <>
-      <Header></Header>
+      <Header> </Header>
       <Conteinner>
         <Sidebar></Sidebar>
         <Content>
           {loading && <Loading></Loading>}
+          <BotaoNotificacoes
+  mercadorias={Dados2}
+  vendas={dadosParaExportar?.grafico || []}
+/>
+        
           <label>Filtrar por Stock:</label>
           <select value={stockSelecionado} onChange={(e) => setLoteS(e.target.value)}>
           <option>Selecione Um Stock</option>
@@ -428,6 +439,7 @@ function exportarParaExcel(dados, nomeArquivo = "dados.xlsx") {
               onChange={(e) => setMesSelecionado(e.target.value)}
               style={{ marginBottom: "1rem", display: "block" }}
             />
+
 
           <div className="dashboard">
             <div className="card total-clients">
