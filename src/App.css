@@ -162,7 +162,27 @@ input.pesquisa{
     .notification{
         position:fixed;
         right: 20px !important;
-        /* display: none !important; */
+        display: none !important;
     }
+    
   }
-  
+  @media (max-width: 480px) {
+    .notification{
+      position:fixed;
+      right: 10px !important;
+      /* display: none !important; */
+  }
+.notification_div{
+  right: 10px !important;
+
+}
+.header-right{
+  position:fixed;
+  top:50px;
+  right: 10px !important;
+
+}
+header{
+  height: 100px;
+}
+  }

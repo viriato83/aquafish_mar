@@ -418,10 +418,7 @@ function exportarParaExcel(dados, nomeArquivo = "dados.xlsx") {
         <Sidebar></Sidebar>
         <Content>
           {loading && <Loading></Loading>}
-          <BotaoNotificacoes
-  mercadorias={Dados2}
-  vendas={dadosParaExportar?.grafico || []}
-/>
+       
         
           <label>Filtrar por Stock:</label>
           <select value={stockSelecionado} onChange={(e) => setLoteS(e.target.value)}>

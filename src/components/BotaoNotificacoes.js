@@ -57,6 +57,7 @@ function BotaoNotificacoes({ vendas = [] }) {
   return (
     <>
      <div
+     className="notification_div"
   ref={dropdownRef}
   style={{
     position: "fixed",
@@ -69,12 +70,12 @@ function BotaoNotificacoes({ vendas = [] }) {
   }}
 >
 
-        <div ref={dropdownRef} style={{ position: "relative", display: "inline-block" }}>
+        <div ref={dropdownRef} style={{ position: "relative", display: "inline-block" ,color:"white"}}>
           <button
             onClick={() => setShow((prev) => !prev)}
             aria-label="Notificações"
             className="relative flex items-center gap-2 px-4 py-2 bg-transparent border-0 text-bg-light
-            text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition "
           >
             <div className="relative">
               <Bell
