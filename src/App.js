@@ -6,10 +6,10 @@ import AppRouter from './Router';
 function App() {
   return (
     <div className="App">
-   
-       <Login>
+      <Error></Error>
+       {/* <Login>
        <AppRouter></AppRouter>
-       </Login>
+       </Login> */}
     </div>
   );
 }
