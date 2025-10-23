@@ -57,11 +57,11 @@ export default function Slider() {
                   onClick={() => toggleMenu("stock-menu")}
                   className={`dropdown-toggle toggle-menu ${activeMenu === "stock-menu" ? "bg-primary" : ""}`}
                 >
-                  <FiArchive /> Stock
+                  <FiArchive /> Gaiolas
                 </Link>
                 <ul className={`submenu ${activeMenu === "stock-menu" ? "show" : ""}`}>
-                  <li><Link to="/RegistarStock">Cadastrar Stock</Link></li>
-                  <li><Link to="/stockview">Ver Stocks Disponíveis</Link></li>
+                  <li><Link to="/RegistarStock">Cadastrar Gaiola</Link></li>
+                  <li><Link to="/stockview">Ver Gaiolas Disponíveis</Link></li>
                 </ul>
               </li>
 
@@ -106,6 +106,21 @@ export default function Slider() {
             <ul className={`submenu ${activeMenu === "vendas-menu" ? "show" : ""}`}>
               <li><Link to="/registarvenda">Cadastrar Venda</Link></li>
               <li><Link to="/vendasview">Ver Vendas Disponíveis</Link></li>
+            </ul>
+          </li>
+          {/* Racao */}
+          <li>
+            <Link
+              onClick={() => toggleMenu("racao-menu")}
+              className={`dropdown-toggle toggle-menu ${activeMenu === "racao-menu" ? "bg-primary" : ""}`}
+            >
+              <FiShoppingCart /> Ração
+            </Link>
+            <ul className={`submenu ${activeMenu === "racao-menu" ? "show" : ""}`}>
+              <li><Link to="/registarentrada">Cadastrar Entrada</Link></li>
+              <li><Link to="/registarsaida">Cadastrar Saida</Link></li>
+              
+              <li><Link to="/racaoview">Relatorio</Link></li>
             </ul>
           </li>
         </ul>

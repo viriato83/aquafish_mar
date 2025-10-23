@@ -66,7 +66,7 @@ export default function StockView() {
       <Conteinner>
         <Slider />
         <Content>
-        <h2 >Stock </h2>
+        <h2 >Gaiolas </h2>
           <div className="tabela">
             <table>
               <thead>
@@ -74,6 +74,7 @@ export default function StockView() {
                   <th>ID</th>
                   <th>Quantidade</th>
                   <th>Tipo</th>
+                  <th>Data</th>
                             {(permissao === "admin" )&&
                              <th>Usuario</th>
                             }
@@ -86,6 +87,7 @@ export default function StockView() {
                     <td>{elemento.idstock}</td>
                     <td>{elemento.quantidade} </td>
                     <td>{elemento.tipo}</td>
+                    <td>{elemento.data}</td>
                    {(permissao === "admin" )&&
                             <td>{elemento.usuario!=null?elemento.usuario.login:0}</td>
                             }

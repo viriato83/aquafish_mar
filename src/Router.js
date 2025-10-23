@@ -11,6 +11,9 @@ import RegistarVenda from "./pages/servicos/vendas/RegistarVendas";
 import VendasView from "./pages/servicos/vendas/VendasView";
 import RegistarMortalidade from "./pages/servicos/Mortalidades/registMortalidade";
 import MortalidadeView from "./pages/servicos/Mortalidades/mortalidadeView";
+import Registar_entrada from "./pages/servicos/racao/Registar_entrada";
+import Registar_saida from "./pages/servicos/racao/Saida";
+import RacaoView from "./pages/servicos/racao/view";
 
 export default function AppRouter() {
   const permissao = sessionStorage.getItem("cargo");
@@ -35,7 +38,10 @@ export default function AppRouter() {
         <Route path="/vendasview" element={<VendasView />} />
         <Route path="/registarmortalidade" element={<RegistarMortalidade />} />
         <Route path="/registar-mortalidade/:id" element={<RegistarMortalidade />} />
-        <Route path="/mortalidadeview" element={<MortalidadeView />} />
+        <Route path="/mortalidadeview" element={<MortalidadeView />} />      
+        <Route path="/registarentrada" element={<Registar_entrada/>} />      
+        <Route path="/registarsaida" element={<Registar_saida/>} />      
+        <Route path="/racaoview" element={<RacaoView/>} />      
       </Routes>
     </Router>
   );

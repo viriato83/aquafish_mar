@@ -1,37 +1,41 @@
+import mensagem from "../../../components/mensagem.js";
 
-import mensagem from "../../../components/mensagem";
-
-export class repositorioMortalidade{
+export default class  repositorioRacao{
 
 
     constructor(){
-        this.endpoint ="  https://api1.mozsystems.com/tenant1/mortalidade"
-        this.mensagem= new mensagem();
+        this.endpoint ="  https://api1.mozsystems.com/tenant1/racao"
+        this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
-       
+      
     }
-    async cadastrar(mortalidade) {
+    async cadastrar(racao) {
         try {
           let res = await fetch(this.endpoint, {  // Adicione 'await'
             method:"POST",
-            body: JSON.stringify(mortalidade),
+            body: JSON.stringify(racao),
             headers: {
-              "Authorization":  `Bearer ${this.token}`,
-              'Content-Type': 'application/json'
+              "Authorization":`Bearer ${this.token}`,
+              'Content-Type':'application/json'
             }
           });
     
           if (res.ok) {  // Use 'res.ok' em vez de 'res.status == 200'
             console.log("Cadastro feito com sucesso");
             this.mensagem.sucesso("cadastro feito com sucesso")
-
-          } else {
+            
+            
+        } else {
             console.log("Erro ao cadastrar:", res.status);
+            this.mensagem.Erro("Erro ao cadastrar")
           
           }
+      
         } catch (e) {
           console.error("Erro no cadastro:", e);
+          this.mensagem.Erro("Erro ao cadastrar")
         
+          return false;
         }
       }
     
@@ -48,9 +52,8 @@ export class repositorioMortalidade{
     
           if (res.status== 200) {
             const data = await res.json();
-                    
+          
     
-            // console.log('Dados recebidos:', data);
             return data;
           } else {
             console.log('Erro ao fazer a leitura:', res.status);
@@ -62,38 +65,9 @@ export class repositorioMortalidade{
           return [];
         }
       } 
-      async buscarmortalidade(){
+      async buscarStock(){
         try {
-            const res = await fetch("https://api.mozsystems.com/tenant1/mercadoria", {  // Adicione 'await' e utilize o this.endpoint
-              method: 'GET',
-              
-              headers: {
-                'Authorization': `Bearer ${this.token}`,
-                'Content-Type': 'application/json'
-              }
-            });
-      
-            if (res.status== 200) {
-              const data = await res.json();
-                      
-      
-              console.log('Dados recebidos:', data);
-              return data;
-            } else {
-              console.log('Erro ao fazer a leitura:', res.status);
-             
-              return [];
-            }
-          } catch (err) {
-            console.error('Erro ao fazer a leitura:', err);
-            return [];
-          }
-            
-      }
-    
-      async buscarmortalidadee(){
-        try {
-            const res = await fetch("https://api.mozsystems.com/tenant1/clientes", {  // Adicione 'await' e utilize o this.endpoint
+            const res = await fetch("https://api1.mozsystems.com/tenant1/stock", {  // Adicione 'await' e utilize o this.endpoint
               method: 'GET',
               
               headers: {
@@ -122,7 +96,7 @@ export class repositorioMortalidade{
     
     
     
-      async editar(Id, mortalidade) {
+      async editar(racao) {
         try {
           let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
             method: "PUT", 
@@ -130,14 +104,67 @@ export class repositorioMortalidade{
               "Authorization": "Bearer " + this.token,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: Id ,...mortalidade}) 
+            body: JSON.stringify(racao) 
            
           });
-          console.log(JSON.stringify({ id: Id ,...mortalidade}))
+          console.log(JSON.stringify(racao))
     
           if (res.status==200) {
             console.log("Editado com sucesso"); 
-            this.mensagem.sucesso("Editado com sucesso");  
+            // this.mensagem.sucesso("Editado com sucesso");  
+            return true;
+          } else {
+            console.log("Erro ao editar:", res.status);
+            this.mensagem.Erro("Erro ao editar");
+            return false;
+          }
+        } catch (e) {
+          console.error("Erro ao editar:", e);
+          return false;
+        }
+      }
+      async editar2(Id, mercadoria) {
+        try {
+          let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
+            method: "PUT", 
+            headers: {
+              "Authorization": "Bearer " + this.token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: Id ,tipo:"saida",data_saida: mercadoria}) 
+           
+          });
+    
+          if (res.status==200) {
+            // console.log("Editado com sucesso"); 
+            // this.mensagem.sucesso("Editado com sucesso");  
+            return true;
+          } else {
+            console.log("Erro ao editar:", res.status);
+            // this.mensagem.Erro("Erro ao editar");
+            return false;
+          }
+        } catch (e) {
+          console.error("Erro ao editar:", e);
+          return false;
+        }
+      }
+    
+      async editar3(Id, mercadoria) {
+        try {
+          let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
+            method: "PUT", 
+            headers: {
+              "Authorization": "Bearer " + this.token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: Id,quantidade: mercadoria}) 
+           
+          });
+    
+          if (res.status==200) {
+            console.log("Editado com sucesso"); 
+            // this.mensagem.sucesso("Editado com sucesso");  
             return true;
           } else {
             console.log("Erro ao editar:", res.status);
@@ -158,7 +185,7 @@ export class repositorioMortalidade{
               "Authorization": "Bearer " + this.token,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: Id }) 
+            body: JSON.stringify({ idracao: Id }) 
           });
     
           if (res.status==200) {
