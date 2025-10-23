@@ -4,7 +4,11 @@ export default class ClienteRepository{
      
 
     constructor(){
+<<<<<<< HEAD
         this.endpoint ="https://api1.mozsystems.com/tenant1/clientes"
+=======
+        this.endpoint ="https://api1.mozsystems.com/tenant3/clientes"
+>>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
       

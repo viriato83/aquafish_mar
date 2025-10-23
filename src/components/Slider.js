@@ -80,7 +80,7 @@ export default function Slider() {
               </li>
 
               {/* MORTALIDADE */}
-              <li>
+              {/* <li>
                 <Link
                   onClick={() => toggleMenu("mortalidade-menu")}
                   className={`dropdown-toggle toggle-menu ${activeMenu === "mortalidade-menu" ? "bg-primary" : ""}`}
@@ -91,7 +91,7 @@ export default function Slider() {
                   <li><Link to="/Registarmortalidade">Cadastrar Mortalidades</Link></li>
                   <li><Link to="/mortalidadeview">Ver Mortalidades Disponíveis</Link></li>
                 </ul>
-              </li>
+              </li> */}
             </>
           )}
 
@@ -109,7 +109,11 @@ export default function Slider() {
             </ul>
           </li>
           {/* Racao */}
+<<<<<<< HEAD
           <li>
+=======
+          {/* <li>
+>>>>>>> 98bfafe (Salvar alterações locais antes de merge)
             <Link
               onClick={() => toggleMenu("racao-menu")}
               className={`dropdown-toggle toggle-menu ${activeMenu === "racao-menu" ? "bg-primary" : ""}`}
@@ -122,7 +126,11 @@ export default function Slider() {
               
               <li><Link to="/racaoview">Relatorio</Link></li>
             </ul>
+<<<<<<< HEAD
           </li>
+=======
+          </li> */}
+>>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         </ul>
       </nav>
     </>

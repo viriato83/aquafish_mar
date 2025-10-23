@@ -6,7 +6,11 @@ export default class repositorioStock{
 
 
     constructor(){
+<<<<<<< HEAD
         this.endpoint =" https://api1.mozsystems.com/tenant1/stock"
+=======
+        this.endpoint =" https://api1.mozsystems.com/tenant3/stock"
+>>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         this.mensagem= new mensagem()
         this.token=sessionStorage.getItem("token");
   

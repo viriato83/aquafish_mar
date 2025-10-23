@@ -4,7 +4,11 @@ export default class  repositorioMercadoria{
 
 
     constructor(){
+<<<<<<< HEAD
         this.endpoint ="  https://api1.mozsystems.com/tenant1/mercadoria"
+=======
+        this.endpoint ="  https://api1.mozsystems.com/tenant3/mercadoria"
+>>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       
