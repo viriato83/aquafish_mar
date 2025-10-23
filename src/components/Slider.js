@@ -57,11 +57,11 @@ export default function Slider() {
                   onClick={() => toggleMenu("stock-menu")}
                   className={`dropdown-toggle toggle-menu ${activeMenu === "stock-menu" ? "bg-primary" : ""}`}
                 >
-                  <FiArchive /> Gaiolas
+                  <FiArchive /> Stock
                 </Link>
                 <ul className={`submenu ${activeMenu === "stock-menu" ? "show" : ""}`}>
-                  <li><Link to="/RegistarStock">Cadastrar Gaiola</Link></li>
-                  <li><Link to="/stockview">Ver Gaiolas Disponíveis</Link></li>
+                  <li><Link to="/RegistarStock">Cadastrar Stock</Link></li>
+                  <li><Link to="/stockview">Ver Stocks Disponíveis</Link></li>
                 </ul>
               </li>
 
@@ -109,11 +109,7 @@ export default function Slider() {
             </ul>
           </li>
           {/* Racao */}
-<<<<<<< HEAD
-          <li>
-=======
           {/* <li>
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
             <Link
               onClick={() => toggleMenu("racao-menu")}
               className={`dropdown-toggle toggle-menu ${activeMenu === "racao-menu" ? "bg-primary" : ""}`}
@@ -126,11 +122,7 @@ export default function Slider() {
               
               <li><Link to="/racaoview">Relatorio</Link></li>
             </ul>
-<<<<<<< HEAD
-          </li>
-=======
           </li> */}
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         </ul>
       </nav>
     </>

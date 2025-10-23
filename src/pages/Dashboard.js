@@ -537,27 +537,19 @@ export default function Dashboard() {
 
           <div style={{ display: "grid", gap: 12, alignItems: "center", marginBottom: 12 }}>
             <div style={{ flex: 1 }}>
-<<<<<<< HEAD
-              <label style={{ fontWeight: 600 }}>Filtrar por Gaiola:</label>
-=======
               <label style={{ fontWeight: 600 }}>Filtrar por Stock:</label>
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
+ 
               <select
                 value={stockSelecionado}
                 onChange={(e) => setLoteS(e.target.value)}
                 style={{ width: "100%", padding: 8, borderRadius: 8 }}
               >
-<<<<<<< HEAD
-                <option value={0}>Todas Gaiolas</option>
-                {modelo2.map((stock) => (
-                  <option key={stock.idstock} value={stock.idstock}>
-                    Gaiolas {stock.tipo}
-=======
+
                 <option value={0}>Todos os Stocks</option>
                 {modelo2.map((stock) => (
                   <option key={stock.idstock} value={stock.idstock}>
                     Stock {stock.tipo}
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
+
                   </option>
                 ))}
               </select>
