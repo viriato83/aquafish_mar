@@ -67,11 +67,7 @@ export default class  repositorioRacao{
       } 
       async buscarStock(){
         try {
-<<<<<<< HEAD
-            const res = await fetch("https://api1.mozsystems.com/tenant1/stock", {  // Adicione 'await' e utilize o this.endpoint
-=======
             const res = await fetch("https://api.mozsystems.com/tenant1/stock", {  // Adicione 'await' e utilize o this.endpoint
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
               method: 'GET',
               
               headers: {

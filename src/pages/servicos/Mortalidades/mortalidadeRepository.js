@@ -5,11 +5,7 @@ export class repositorioMortalidade{
 
 
     constructor(){
-<<<<<<< HEAD
-        this.endpoint ="  https://api1.mozsystems.com/tenant1/mortalidade"
-=======
         this.endpoint =" https://api1.mozsystems.com/tenant1/mortalidade"
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
        

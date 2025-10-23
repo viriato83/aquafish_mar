@@ -4,11 +4,7 @@ export default class  repositorioMercadoria{
 
 
     constructor(){
-<<<<<<< HEAD
-        this.endpoint ="  https://api1.mozsystems.com/tenant1/mercadoria"
-=======
         this.endpoint ="  https://api1.mozsystems.com/tenant3/mercadoria"
->>>>>>> 98bfafe (Salvar alterações locais antes de merge)
         this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       
@@ -69,7 +65,7 @@ export default class  repositorioMercadoria{
       } 
       async buscarStock(){
         try {
-            const res = await fetch("https://api1.mozsystems.com/tenant1/stock", {  // Adicione 'await' e utilize o this.endpoint
+            const res = await fetch("https://api.mozsystems.com/tenant1/stock", {  // Adicione 'await' e utilize o this.endpoint
               method: 'GET',
               
               headers: {
