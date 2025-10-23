@@ -80,7 +80,7 @@ export default function Slider() {
               </li>
 
               {/* MORTALIDADE */}
-              <li>
+              {/* <li>
                 <Link
                   onClick={() => toggleMenu("mortalidade-menu")}
                   className={`dropdown-toggle toggle-menu ${activeMenu === "mortalidade-menu" ? "bg-primary" : ""}`}
@@ -91,7 +91,7 @@ export default function Slider() {
                   <li><Link to="/Registarmortalidade">Cadastrar Mortalidades</Link></li>
                   <li><Link to="/mortalidadeview">Ver Mortalidades Disponíveis</Link></li>
                 </ul>
-              </li>
+              </li> */}
             </>
           )}
 
@@ -108,6 +108,21 @@ export default function Slider() {
               <li><Link to="/vendasview">Ver Vendas Disponíveis</Link></li>
             </ul>
           </li>
+          {/* Racao */}
+          {/* <li>
+            <Link
+              onClick={() => toggleMenu("racao-menu")}
+              className={`dropdown-toggle toggle-menu ${activeMenu === "racao-menu" ? "bg-primary" : ""}`}
+            >
+              <FiShoppingCart /> Ração
+            </Link>
+            <ul className={`submenu ${activeMenu === "racao-menu" ? "show" : ""}`}>
+              <li><Link to="/registarentrada">Cadastrar Entrada</Link></li>
+              <li><Link to="/registarsaida">Cadastrar Saida</Link></li>
+              
+              <li><Link to="/racaoview">Relatorio</Link></li>
+            </ul>
+          </li> */}
         </ul>
       </nav>
     </>

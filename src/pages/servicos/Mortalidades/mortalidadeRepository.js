@@ -5,7 +5,7 @@ export class repositorioMortalidade{
 
 
     constructor(){
-        this.endpoint =" https://api.mozsystems.com/tenant1/mortalidade"
+        this.endpoint =" https://api1.mozsystems.com/tenant1/mortalidade"
         this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
        

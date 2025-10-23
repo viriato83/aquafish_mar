@@ -4,7 +4,7 @@ export class repositorioVenda{
 
    
     constructor(){
-      this.endpoint ="  https://api.mozsystems.com/tenant1/vendas"
+      this.endpoint ="  https://api1.mozsystems.com/tenant3/vendas"
       this.mensagem= new mensagem();
         this.token=sessionStorage.getItem("token");
     
@@ -94,7 +94,7 @@ export class repositorioVenda{
       } 
       async buscarMercadoria(){
         try {
-            const res = await fetch("https://api.mozsystems.com/tenant1/mercadoria", {  // Adicione 'await' e utilize o this.endpoint
+            const res = await fetch("https://api1.mozsystems.com/tenant1/mercadoria", {  // Adicione 'await' e utilize o this.endpoint
               method: 'GET',
               
               headers: {

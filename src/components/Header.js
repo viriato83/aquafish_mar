@@ -22,7 +22,7 @@ export default function Header({ children, mercadorias = [], vendas = [] }) {
       <header className="header-container">
         <div className="header-left">
           <img src={logo} alt="Logo" className="logo" />
-          <h1 className="system-title">Management System</h1>
+          <h1 className="system-title">Peixe do Mar</h1>
         </div>
 
      

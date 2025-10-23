@@ -24,7 +24,7 @@ export default function MortalidadeView() {
   const navigate = useNavigate();
   let     moda= new modal();
   let     msg= new mensagem();
-
+  console.log(modelo)
   useEffect(()=>{
      
     async function carregarDados() {
@@ -71,6 +71,7 @@ export default function MortalidadeView() {
                   <th>Descrição</th>
                   <th>Quantidade</th>
                   <th>Data</th>
+                  <th>Stock</th>
                   <th>Total</th>
                 </tr>
               </thead>
@@ -79,8 +80,9 @@ export default function MortalidadeView() {
                   <tr key={i}>
                     <td>{elemento.id}</td>
                     <td>{elemento.descricao}</td>
-                    <td>{elemento.quantidade} kg</td>
+                    <td>{elemento.quantidade} </td>
                     <td>{elemento.data}</td>
+                    <td>{elemento.stocks.tipo}</td>
                     <td>{elemento.total}</td> {/* Mostra o total no final */}
                   </tr>
                 ))}

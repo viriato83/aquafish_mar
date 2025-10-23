@@ -1,40 +1,40 @@
-import mensagem from "../../../components/mensagem";
+import mensagem from "../../../components/mensagem.js";
 
-export default class ClienteRepository{
-     
+export default class  repositorioRacao{
+
 
     constructor(){
-        this.endpoint ="https://api1.mozsystems.com/tenant3/clientes"
-        this.mensagem= new mensagem();
+        this.endpoint ="  https://api1.mozsystems.com/tenant1/racao"
+        this.mensagem= new mensagem ();
         this.token=sessionStorage.getItem("token");
       
     }
-    async cadastrar(cliente) {
+    async cadastrar(racao) {
         try {
           let res = await fetch(this.endpoint, {  // Adicione 'await'
             method:"POST",
-            body: JSON.stringify(cliente),
+            body: JSON.stringify(racao),
             headers: {
-              "Authorization":  `Bearer ${this.token}`,
-              'Content-Type': 'application/json'
+              "Authorization":`Bearer ${this.token}`,
+              'Content-Type':'application/json'
             }
           });
     
           if (res.ok) {  // Use 'res.ok' em vez de 'res.status == 200'
             console.log("Cadastro feito com sucesso");
             this.mensagem.sucesso("cadastro feito com sucesso")
-
-            //  return true;
-          } else {
+            
+            
+        } else {
             console.log("Erro ao cadastrar:", res.status);
-            this.mensagem.Erro("Ocorreu um erro ao cadastar  " + res.status)
-            // return false;
+            this.mensagem.Erro("Erro ao cadastrar")
+          
           }
-        //   eslint-disable-next-line no-unreachable
-        
+      
         } catch (e) {
           console.error("Erro no cadastro:", e);
-         
+          this.mensagem.Erro("Erro ao cadastrar")
+        
           return false;
         }
       }
@@ -52,9 +52,8 @@ export default class ClienteRepository{
     
           if (res.status== 200) {
             const data = await res.json();
-                    
-    
           
+    
             return data;
           } else {
             console.log('Erro ao fazer a leitura:', res.status);
@@ -66,11 +65,38 @@ export default class ClienteRepository{
           return [];
         }
       } 
-    
-    
+      async buscarStock(){
+        try {
+            const res = await fetch("https://api.mozsystems.com/tenant1/stock", {  // Adicione 'await' e utilize o this.endpoint
+              method: 'GET',
+              
+              headers: {
+                'Authorization': `Bearer ${this.token}`,
+                'Content-Type': 'application/json'
+              }
+            });
       
+            if (res.status== 200) {
+              const data = await res.json();
+                      
+      
+              console.log('Dados recebidos:', data);
+              return data;
+            } else {
+              console.log('Erro ao fazer a leitura:', res.status);
+             
+              return [];
+            }
+          } catch (err) {
+            console.error('Erro ao fazer a leitura:', err);
+            return [];
+          }
+            
+      }
     
-      async editar(Id, cliente) {
+    
+    
+      async editar(racao) {
         try {
           let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
             method: "PUT", 
@@ -78,14 +104,14 @@ export default class ClienteRepository{
               "Authorization": "Bearer " + this.token,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: Id ,...cliente}) 
+            body: JSON.stringify(racao) 
            
           });
-          console.log(JSON.stringify({ id: Id ,...cliente}))
+          console.log(JSON.stringify(racao))
     
           if (res.status==200) {
             console.log("Editado com sucesso"); 
-            this.mensagem.sucesso("Editado com sucesso");  
+            // this.mensagem.sucesso("Editado com sucesso");  
             return true;
           } else {
             console.log("Erro ao editar:", res.status);
@@ -97,7 +123,7 @@ export default class ClienteRepository{
           return false;
         }
       }
-    async editar2(Id, cliente) {
+      async editar2(Id, mercadoria) {
         try {
           let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
             method: "PUT", 
@@ -105,15 +131,40 @@ export default class ClienteRepository{
               "Authorization": "Bearer " + this.token,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: Id ,status_p:cliente}) 
-            
+            body: JSON.stringify({ id: Id ,tipo:"saida",data_saida: mercadoria}) 
+           
           });
-          console.log(JSON.stringify({ id: Id ,status_p:cliente}))
-     
+    
+          if (res.status==200) {
+            // console.log("Editado com sucesso"); 
+            // this.mensagem.sucesso("Editado com sucesso");  
+            return true;
+          } else {
+            console.log("Erro ao editar:", res.status);
+            // this.mensagem.Erro("Erro ao editar");
+            return false;
+          }
+        } catch (e) {
+          console.error("Erro ao editar:", e);
+          return false;
+        }
+      }
+    
+      async editar3(Id, mercadoria) {
+        try {
+          let res = await fetch(this.endpoint, {  // Adicione 'await' e corrija o endpoint
+            method: "PUT", 
+            headers: {
+              "Authorization": "Bearer " + this.token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: Id,quantidade: mercadoria}) 
+           
+          });
     
           if (res.status==200) {
             console.log("Editado com sucesso"); 
-            this.mensagem.sucesso("Editado com sucesso");  
+            // this.mensagem.sucesso("Editado com sucesso");  
             return true;
           } else {
             console.log("Erro ao editar:", res.status);
@@ -125,7 +176,6 @@ export default class ClienteRepository{
           return false;
         }
       }
-    
     
       async deletar(Id) {  // Renomeado de 'editar' para 'deletar'
         try {
@@ -135,7 +185,7 @@ export default class ClienteRepository{
               "Authorization": "Bearer " + this.token,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: Id }) 
+            body: JSON.stringify({ idracao: Id }) 
           });
     
           if (res.status==200) {
