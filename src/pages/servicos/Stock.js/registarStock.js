@@ -92,7 +92,7 @@ export default function RegistarStock() {
               <input
                 type="text"
                 className="tipo"
-                placeholder="Gaiola"
+                placeholder="Nome"
                 value={inputs.tipo}
                 onChange={(e) => setInputs({ ...inputs, tipo: e.target.value })}
               />
