@@ -77,7 +77,7 @@ export default function RegistarStock() {
               <label>ID:</label>
               <input type="number" value={id || 0} disabled className="id" />
               <br />
-              <label>Quantidade unitária: </label>
+              <label>Quantidade (kg): </label>
               <input
                 type="number"
                 className="quantidade"
@@ -88,7 +88,7 @@ export default function RegistarStock() {
                 }
               />
               <br />
-              <label>Gaiola:</label>
+              <label>Nome:</label>
               <input
                 type="text"
                 className="tipo"
