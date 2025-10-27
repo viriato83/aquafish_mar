@@ -66,7 +66,7 @@ export default function StockView() {
       <Conteinner>
         <Slider />
         <Content>
-        <h2 >Stock </h2>
+        <h2 >Gaiolas </h2>
           <div className="tabela">
             <table>
               <thead>

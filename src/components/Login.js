@@ -9,7 +9,11 @@ export default function Login({ children }) {
   );
  var [Entrar,setEntrar] = useState("Entrar");
 
+<<<<<<< HEAD
   const endpointSpring = "  https://api1.mozsystems.com/tenant1/login";
+=======
+  const endpointSpring = "https://api1.mozsystems.com/tenant1/login";
+>>>>>>> recupera-commits
  
   const handleLogin = async () => {
     try {

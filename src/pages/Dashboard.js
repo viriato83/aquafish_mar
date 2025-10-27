@@ -538,11 +538,13 @@ export default function Dashboard() {
           <div style={{ display: "grid", gap: 12, alignItems: "center", marginBottom: 12 }}>
             <div style={{ flex: 1 }}>
               <label style={{ fontWeight: 600 }}>Filtrar por Stock:</label>
+
               <select
                 value={stockSelecionado}
                 onChange={(e) => setLoteS(e.target.value)}
                 style={{ width: "100%", padding: 8, borderRadius: 8 }}
               >
+
                 <option value={0}>Todos os Stocks</option>
                 {modelo2.map((stock) => (
                   <option key={stock.idstock} value={stock.idstock}>
@@ -562,6 +564,29 @@ export default function Dashboard() {
               />
             </div>
 
+            <select>
+
+                <option value={0}>Todos os Stocks</option>
+                {modelo2.map((stock) => (
+                  <option key={stock.idstock} value={stock.idstock}>
+                    Stock {stock.tipo}
+
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="d-grid">
+              <label style={{ fontWeight: 600 }}>Filtrar por Mês:</label>
+              <input
+                type="month"
+                value={mesSelecionado}
+                onChange={(e) => setMesSelecionado(e.target.value)}
+                style={{ padding: 8, borderRadius: 8 }}
+              />
+            </div>
+
+
             <div style={{ display: "flex", gap: 8, alignItems: "center",justifyContent:"center"
              }}>
               <button
@@ -571,7 +596,7 @@ export default function Dashboard() {
                 📥 Exportar Excel
               </button>
             </div>
-          </div>
+          
 
           {/* --- KPI CARDS (estilo Power BI) */}
           <div className="cards-grid">

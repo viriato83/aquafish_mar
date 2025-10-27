@@ -113,12 +113,12 @@ const permissao= sessionStorage.getItem("cargo");
         <Content>
           
           <h2 >Mercadorias </h2>
-          <label>    Filtrar por Stock:</label>
+          <label>    Filtrar por Gaiola:</label>
           <select value={stockSelecionado} onChange={(e) => setLoteS(Number(e.target.value))}>
-          <option>Selecione Um Stock</option>
+          <option>Selecione Uma Gaiola</option>
             {modelo2.map((stock) => (
               <option key={stock.idstock} value={stock.idstock}>
-                Stock {stock.tipo}
+                Gaiola {stock.tipo}
               </option>
             ))}
           </select>
@@ -136,7 +136,7 @@ const permissao= sessionStorage.getItem("cargo");
                   <th>Valor total</th>
                   {/* <th>Q Saidas</th> */}
                   <th>Data de Saída</th>
-                  <th>Stock</th>
+                  <th>Gaiola</th>
                   {(permissao === "admin" )&&
                           <th> Usuario</th>
                           }
