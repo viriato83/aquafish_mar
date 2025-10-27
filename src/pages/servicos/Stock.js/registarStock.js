@@ -71,13 +71,13 @@ export default function RegistarStock() {
         <Slider />
         <Content>
           <div className="Cadastro">
-            <h1>Registo  de Gaiolas</h1>
+            <h1>Registo  de Stock</h1>
             <br />
             <div className="form">
               <label>ID:</label>
               <input type="number" value={id || 0} disabled className="id" />
               <br />
-              <label>Quantidade unitária: </label>
+              <label>Quantidade (Kg): </label>
               <input
                 type="number"
                 className="quantidade"
@@ -88,7 +88,7 @@ export default function RegistarStock() {
                 }
               />
               <br />
-              <label>Gaiola:</label>
+              <label>Nome:</label>
               <input
                 type="text"
                 className="tipo"
