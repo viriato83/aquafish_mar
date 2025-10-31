@@ -76,9 +76,9 @@ export default function RegistarMercadoria() {
       repositorio.editar(id, criaMercadoria());
       msg.sucesso("Mercadoria editada com sucesso.");
       limparFormulario(); // Limpa o formulário após editar
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
     } else {
       if (
         !inputs.nome ||
@@ -92,7 +92,7 @@ export default function RegistarMercadoria() {
       } else {
              if(calculaQuantidadeStock()>=0){
               await repositorio.cadastrar(criaMercadoria());
-              await  estoqueRepo.editar(inputs.estoque,new stock(calculaQuantidadeStock(),"","","",0))
+              await  estoqueRepo.editar(inputs.estoque,new stock(calculaQuantidadeStock(),0,"","","",0))
               localStorage.setItem("quantidade",JSON.stringify(quantidade))
               msg.sucesso("Mercadoria cadastrada com sucesso.");
               limparFormulario(); // Limpa o formulário após cadastrar
