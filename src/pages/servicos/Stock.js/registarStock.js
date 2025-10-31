@@ -39,7 +39,7 @@ export default function RegistarStock() {
   }, []);
 
   const criaStock = () => {
-    return new stock(inputs.quantidade, inputs.tipo,usuario,inputs.data, inputs.mercadoria);
+    return new stock(inputs.quantidade,inputs.quantidade, inputs.tipo,usuario,inputs.data, inputs.mercadoria);
   };
 
   const validarCampos = () => {

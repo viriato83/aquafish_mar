@@ -145,7 +145,7 @@ export default function RegistarMercadoria() {
               <input
                 type="number"
                 className="quantidade"
-                placeholder="Quantidade Unitaria"
+                placeholder="Quantidade (kg)"
                 value={inputs.quantidade==null?null:inputs.quantidade}
                 onChange={(e) =>
                   setInputs({ ...inputs, quantidade: e.target.value })
