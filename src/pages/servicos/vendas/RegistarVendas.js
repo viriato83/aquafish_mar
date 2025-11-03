@@ -15,6 +15,7 @@ import vendas from "./Vendas";
 import repositorioMercadoria from "../Mercadorias/Repositorio";
 import ClienteRepository from "../Clientes/ClienteRepository";
 import mercadoria from "../Mercadorias/Mercadoria";
+import Loading from "../../../components/loading";
 export default function RegistarVenda() {
   const [inputs, setInputs] = useState({
     quantidade: [],
@@ -33,7 +34,8 @@ export default function RegistarVenda() {
   let msg = new mensagem();
   let repositorio = new repositorioVenda();
   const mercadoriaRepo = new repositorioMercadoria();
-  const clienteRepo = new ClienteRepository();
+  const clienteRepo = new ClienteRepository()
+  const [loading, setLoading] = useState(false);;
   const[lastId,setLastId]=useState((0))
   let Cadastro =true; //
   let saidas=0;
@@ -319,7 +321,7 @@ const cadastrar = async () => {
     limparFormulario();
     setTimeout(() => {
       window.location.reload();
-    }, 2000);
+    }, 1500);
     return;
   }
 
@@ -345,6 +347,7 @@ const cadastrar = async () => {
   }
 
   try {
+    setLoading(true)
     if (inputs.cliente !== status) {
       await repositorio.cadastrar(criaVenda());
    
@@ -385,6 +388,10 @@ const cadastrar = async () => {
   } catch (error) {
     msg.Erro("Erro ao cadastrar venda.");
     console.log(error)
+  }finally{
+    setLoading(false)
+    limparFormulario()
+
   }
 };
 
@@ -410,6 +417,7 @@ const cadastrar = async () => {
 
   return (
     <>
+       {loading && <Loading />} 
       <Header />
       <Conteinner>
         <Slider />

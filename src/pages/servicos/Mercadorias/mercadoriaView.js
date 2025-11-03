@@ -30,6 +30,9 @@ const permissao= sessionStorage.getItem("cargo");
   const [modelo2, setModelo2] = useState([]);
   const [quantidadeEst, setQuantidadeEst] = useState(0);
   const repoStco= new repositorioStock();
+  const [dataInicial, setDataInicial] = useState("");
+const [dataFinal, setDataFinal] = useState("");
+
   useEffect(() => {
     // Inicializa as instâncias uma vez
     msg.current = new Mensagem();
@@ -122,6 +125,19 @@ const permissao= sessionStorage.getItem("cargo");
               </option>
             ))}
           </select>
+          {/* 🔽 Filtro por data */}
+          <div style={{ marginTop: "10px", marginBottom: "15px" }}>
+            <label style={{ marginRight: "10px" }}>Data inicial:</label>
+            <input
+              type="date"
+              onChange={(e) => setDataInicial(e.target.value)}
+            />
+            <label style={{ margin: "0 10px" }}>Data final:</label>
+            <input
+              type="date"
+              onChange={(e) => setDataFinal(e.target.value)}
+            />
+          </div>
           <div className="tabela">
             <table>
               <thead>
@@ -143,7 +159,20 @@ const permissao= sessionStorage.getItem("cargo");
                 </tr>
               </thead>
               <tbody>
-              {modelo.map((elemento, i) => {
+              {modelo
+  .filter((elemento) => {
+    // Filtro por Gaiola
+    const matchGaiola =
+      !stockSelecionado || elemento.stock.idstock === stockSelecionado;
+
+    // Filtro por Data
+    const dataEntrada = new Date(elemento.data_entrada);
+    const dentroDoPeriodo =
+      (!dataInicial || dataEntrada >= new Date(dataInicial)) &&
+      (!dataFinal || dataEntrada <= new Date(dataFinal));
+
+    return matchGaiola && dentroDoPeriodo;
+  }).map((elemento, i) => {
                 console.log(elemento)
                     if (!stockSelecionado || elemento.stock.idstock == stockSelecionado) {
                       return (
