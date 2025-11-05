@@ -49,19 +49,32 @@ export default function Slider() {
             </ul>
           </li>
 
-          {/* STOCK */}
+          {/* Capturas */}
           {(cargo === "admin" || cargo === "funcionario" || cargo === "gerente") && (
             <>
+              <li>
+                <Link
+                  onClick={() => toggleMenu("captura-menu")}
+                  className={`dropdown-toggle toggle-menu ${activeMenu === "captura-menu" ? "bg-primary" : ""}`}
+                >
+                  <FiArchive /> Capturas
+                </Link>
+                <ul className={`submenu ${activeMenu === "captura-menu" ? "show" : ""}`}>
+                  <li><Link to="/Registarcapturas">Registo </Link></li>
+                  <li><Link to="/capturasview">Relatorio de Capturas</Link></li>
+                </ul>
+              </li>
+          {/* STOCK */}
               <li>
                 <Link
                   onClick={() => toggleMenu("stock-menu")}
                   className={`dropdown-toggle toggle-menu ${activeMenu === "stock-menu" ? "bg-primary" : ""}`}
                 >
-                  <FiArchive /> Stock
+                  <FiArchive /> Requisições
                 </Link>
                 <ul className={`submenu ${activeMenu === "stock-menu" ? "show" : ""}`}>
-                  <li><Link to="/RegistarStock">Cadastrar Stock</Link></li>
-                  <li><Link to="/stockview">Ver Stocks Disponíveis</Link></li>
+                  <li><Link to="/RegistarStock">Registo</Link></li>
+                  <li><Link to="/stockview">Relatorio de Requisições</Link></li>
                 </ul>
               </li>
 

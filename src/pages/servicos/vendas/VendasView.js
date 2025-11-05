@@ -12,7 +12,7 @@ import Loading from "../../../components/loading";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import ClienteRepository from "../Clientes/ClienteRepository";
-import repositorioStock from "../Stock.js/Repositorio";
+import repositorioStock from "../Stock/Repositorio";
 import repositorioMercadoria from "../Mercadorias/Repositorio";
 
 

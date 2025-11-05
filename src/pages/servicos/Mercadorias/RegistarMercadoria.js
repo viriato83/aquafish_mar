@@ -7,10 +7,10 @@ import Footer from "../../../components/Footer";
 import { useParams } from "react-router-dom";
 import mensagem from "../../../components/mensagem";
 
-import repositorioStock from "../Stock.js/Repositorio";
+import repositorioStock from "../Stock/Repositorio";
 import Mercadoria from "./Mercadoria";
 import repositorioMercadoria from "./Repositorio";
-import stock from "../Stock.js/Stock";
+import stock from "../Stock/Stock";
 import Loading from "../../../components/loading";
 
 
@@ -201,7 +201,7 @@ export default function RegistarMercadoria() {
                   setInputs({ ...inputs, estoque: e.target.value })
                 }
               >
-                <option value="">Selecione um Stock
+                <option value="">Selecione uma Requisição
                 
                 </option>
                 {estoques.map((estoque) => (

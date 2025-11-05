@@ -11,7 +11,7 @@ import RepositorioMercadoria from "./Repositorio";
 import Loading from "../../../components/loading";
 import * as XLSX from "xlsx";  // Import the xlsx library
 import { repositorioVenda } from "../vendas/vendasRepositorio";
-import repositorioStock from "../Stock.js/Repositorio";
+import repositorioStock from "../Stock/Repositorio";
 
 export default function MercadoriaView() {
   const repositorio = new RepositorioMercadoria();

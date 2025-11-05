@@ -8,7 +8,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import ClienteRepository from "./servicos/Clientes/ClienteRepository";
 import repositorioMercadoria from "./servicos/Mercadorias/Repositorio";
-import repositorioStock from "./servicos/Stock.js/Repositorio";
+import repositorioStock from "./servicos/Stock/Repositorio";
+import repositorioCapturas from "./servicos/Stock/Capturas/Repositorio";
 import { repositorioVenda } from "./servicos/vendas/vendasRepositorio";
 import Loading from "../components/loading";
 import * as XLSX from "xlsx";
@@ -30,6 +31,7 @@ export default function Dashboard() {
   const mercadoria = new repositorioMercadoria();
   const stok = new repositorioStock();
   const vendas = new repositorioVenda();
+  const Capturas= new repositorioCapturas();
 
   // --- REFS e STATES
   const chartRef = useRef(null);
@@ -58,6 +60,7 @@ export default function Dashboard() {
   const [totalDivida, setTotalDivida] = useState(0);
   const [quantiDivida, setQuantiDivida] = useState(0);
   const [totalMerc, setTotalMerc] = useState(0);
+  const [totalCapturas, setTotalCapturas] = useState(0);
 
   var [quantidadeTotal, setQuant] = useState(0);
 
@@ -250,11 +253,17 @@ export default function Dashboard() {
           e.mercadorias.forEach((o) => {
             if ((!mesSelecionado || anoMes === mesSelecionado) && (!stockSelecionado || (stockSelecionado && stockSelecionado == o.stock.idstock))) {
               if (e.status_p === "Em_Divida") {
-                quantidadeTotal2 += Number(e.quantidade || 0);
-                quantidadeDivida += Number(e.valor_total || 0);
+                e.itensVenda.forEach((item) => {
+                  quantidadeTotal2 += Number(item.quantidade|| 0);
+                  quantidadeDivida += Number(e.valor_total|| 0);
+                })
               } else {
-                quantidadeTotal += Number(e.quantidade || 0);
-                valorTotalVendas += Number(e.valor_total || 0);
+         
+                e.itensVenda.forEach((item) => {
+                  quantidadeTotal +=Number(item.quantidade|| 0);
+          
+                  valorTotalVendas += Number(e.valor_total|| 0);
+              })
               }
             }
           });
@@ -314,6 +323,7 @@ export default function Dashboard() {
       async function setGrafico() {
         const dados = await vendas.leitura();
         const dados2 = await mercadoria.leitura();
+        // setDados4(await Capt)
         setDados2(dados2);
         const { labels, valores } = agruparPorPeriodo(dados, "mes");
         setVenda(valores);
@@ -466,7 +476,7 @@ export default function Dashboard() {
       const mercDados = await mercadoria.leitura();
       const mapa = {};
       mercDados.forEach((m) => {
-        const id = m.stock?.idstock ?? "SemStock";
+        const id = m.stock?.tipo ?? "SemStock";
         mapa[id] = (mapa[id] || 0) + Number(m.quantidade || 0);
       });
 
@@ -494,7 +504,20 @@ export default function Dashboard() {
             },
           ],
         },
-        options: { responsive: true },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: true, // ✅ mostra a legenda
+              position: "right", // pode ser: 'top', 'bottom', 'left', 'right'
+              labels: {
+                color: "#333", // cor do texto da legenda
+                font: {
+                  size: 14,
+                },
+                padding: 10,
+              },
+            }}},
       });
     }
 
@@ -525,6 +548,7 @@ export default function Dashboard() {
     if (Number.isFinite(Number(n))) return Number(n).toLocaleString();
     return n;
   };
+
 
   // --- Render
   return (
@@ -603,7 +627,7 @@ export default function Dashboard() {
             <KpiCard title="Total Clientes" value={formatNumber(cards[0] || 0)} icon={<Users />} color="#4fc3f7" />
             <KpiCard
               title="Vendas Pagas"
-              value={`${formatNumber(Number(cards[2] || 0).toFixed(2))} kg`}
+              value={`${formatNumber(Number((total) || 0).toFixed(2))} kg`}
               icon={<TrendingUp />}
               color="#66bb6a"
             />
@@ -739,7 +763,7 @@ function ResumoTabela({ mercadorias = [], mesSelecionado, stockSelecionado }) {
             </tr>
           </thead>
           <tbody>
-            {filtradas.map((m) => (
+            {filtradas.map((m,i) => {if(i<10){ return(
               <tr key={m.idmercadoria} style={{ borderBottom: "1px solid #fafafa" }}>
                 <td style={{ padding: 8 }}>{m.idmercadoria}</td>
                 <td>{m.nome}</td>
@@ -749,7 +773,7 @@ function ResumoTabela({ mercadorias = [], mesSelecionado, stockSelecionado }) {
                 <td>{m.data_entrada}</td>
                 <td>{m.stock?.idstock ?? ""}</td>
               </tr>
-            ))}
+            )}})}
             {filtradas.length === 0 && (
               <tr>
                 <td colSpan={7} style={{ padding: 12, textAlign: "center" }}>

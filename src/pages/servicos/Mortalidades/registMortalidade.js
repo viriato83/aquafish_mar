@@ -8,9 +8,9 @@ import mensagem from "../../../components/mensagem";
 import Footer from "../../../components/Footer";
 import { repositorioMortalidade } from "./mortalidadeRepository";
 import Mortalidade from "./Mortalidade";
-import repositorioStock from "../Stock.js/Repositorio";
+import repositorioStock from "../Stock/Repositorio";
 import Select from "react-select";
-import stock from "../Stock.js/Stock";
+import stock from "../Stock/Stock";
 
 export default function RegistarMortalidade() {
   const [inputs, setInputs] = useState({

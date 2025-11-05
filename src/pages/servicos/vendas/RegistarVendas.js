@@ -6,7 +6,7 @@ import Slider from "../../../components/Slider";
 import Footer from "../../../components/Footer";
 import { Link, useParams } from "react-router-dom";
 import mensagem from "../../../components/mensagem";
-import repositorioStock from "../Stock.js/Repositorio";
+import repositorioStock from "../Stock/Repositorio";
  // Adicionar repositório de clientes
  import Select from "react-select";
  import { HiArrowSmRight } from "react-icons/hi";

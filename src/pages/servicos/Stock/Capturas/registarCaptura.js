@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
-import Conteinner from "../../../components/Conteinner";
-import Content from "../../../components/Content";
-import Header from "../../../components/Header";
-import Slider from "../../../components/Slider";
-import Footer from "../../../components/Footer";
+import Conteinner from "../../../../components/Conteinner";
+import Content from "../../../../components/Content";
+import Header from "../../../../components/Header";
+import Slider from "../../../../components/Slider";
+import Footer from "../../../../components/Footer";
 import { useParams } from "react-router-dom";
-import mensagem from "../../../components/mensagem";
+import mensagem from "../../../../components/mensagem";
 import repositorioStock from "./Repositorio";
-import repositorioMercadoria from "../Mercadorias/Repositorio";
-import stock from "./Stock";
+import repositorioMercadoria from "../../Mercadorias/Repositorio";
+import stock from "./Captura";
+import Captura from "./Captura";
+import repositorioCaptura from "./Repositorio";
 
-export default function RegistarStock() {
+export default function RegistarCaptura() {
   const [inputs, setInputs] = useState({
     quantidade: "",
     tipo: "",
     data:"",
+    origem:"",
     mercadoria: "",
   });
   const [mercadorias, setMercadorias] = useState([]);
   const { id } = useParams();
   const msg = new mensagem();
-  const repositorio = new repositorioStock();
+  const repositorio = new repositorioCaptura();
   const usuario= sessionStorage.getItem("idusuarios");
   useEffect(() => {
     // Busca de mercadorias ao carregar o componente
@@ -39,11 +42,11 @@ export default function RegistarStock() {
   }, []);
 
   const criaStock = () => {
-    return new stock(inputs.quantidade,inputs.quantidade, inputs.tipo,usuario,inputs.data, inputs.mercadoria);
+    return new Captura(inputs.quantidade,inputs.quantidade, inputs.tipo,usuario,inputs.data,inputs.origem, inputs.mercadoria);
   };
 
   const validarCampos = () => {
-    if (!inputs.quantidade || !inputs.tipo ) {
+    if (!inputs.quantidade || !inputs.tipo ||!inputs.origem ||!inputs.data) {
       msg.Erro("Preencha todos os campos obrigatórios.");
       return false;
     }
@@ -51,16 +54,16 @@ export default function RegistarStock() {
   };
 
   const cadastrar = () => {
-    if (!validarCampos()) return;
-
+    
     if (id) {
       repositorio.editar(id, criaStock());
       msg.sucesso("Stock editado com sucesso.");
     } else {
+      if (!validarCampos()) return;
       console.log(criaStock())
       repositorio.cadastrar(criaStock());
       msg.sucesso("Stock cadastrado com sucesso.");
-      setInputs({ quantidade: "", tipo: "", mercadoria: "",data:"" }); // Limpar formulário
+      setInputs({ quantidade: "", tipo: "", mercadoria: "",data:"" ,origem:""}); // Limpar formulário
     }
   };
 
@@ -71,7 +74,7 @@ export default function RegistarStock() {
         <Slider />
         <Content>
           <div className="Cadastro">
-            <h1>Registo  de Stock</h1>
+            <h1>Registo  de Capturas</h1>
             <br />
             <div className="form">
               <label>ID:</label>
@@ -95,6 +98,14 @@ export default function RegistarStock() {
                 placeholder="Nome"
                 value={inputs.tipo}
                 onChange={(e) => setInputs({ ...inputs, tipo: e.target.value })}
+              />
+              <label>Origem:</label>
+              <input
+                type="text"
+                className="tipo"
+                placeholder="Origem da captura"
+                value={inputs.origem}
+                onChange={(e) => setInputs({ ...inputs, origem: e.target.value })}
               />
               <br />
               <label>Data </label>
