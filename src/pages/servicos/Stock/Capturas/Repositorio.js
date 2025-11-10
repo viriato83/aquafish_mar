@@ -6,7 +6,7 @@ export default class repositorioCaptura{
 
 
     constructor(){
-        this.endpoint =" https://ap1.mozsystems.com/tenant3/capturas"
+        this.endpoint =" https://api1.mozsystems.com/tenant3/capturas"
         this.mensagem= new mensagem()
         this.token=sessionStorage.getItem("token");
   
