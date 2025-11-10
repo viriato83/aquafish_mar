@@ -155,7 +155,7 @@ export default function CapturasView() {
               <tbody>
                 {listaFiltrada.length > 0 ? listaFiltrada.map((elemento, i) => (
                   <tr key={i}>
-                    <td>{elemento.idstock}</td>
+                    <td>{elemento.idcapturas}</td>
                     <td>{elemento.quantidade_estoque}</td>
                     <td>{elemento.quantidade}</td>
                     <td>{Number(elemento.quantidade_estoque)-Number(elemento.quantidade)}</td>
