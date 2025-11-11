@@ -272,7 +272,7 @@ export default function Dashboard() {
 
         // Requisições (STOCK) em kg
         const somaReqKg = stk.reduce(
-          (acc, s) => acc + Number(s.quantidade ?? s.quantidade_estoque ?? 0),
+          (acc, s) => acc + Number(s.quantidade_estoque  ?? 0),
           0
         );
 
