@@ -272,13 +272,13 @@ export default function Dashboard() {
 
         // Requisições (STOCK) em kg
         const somaReqKg = stk.reduce(
-          (acc, s) => acc + Number(s.quantidade_estoque  ?? 0),
+          (acc, s) => acc + Number(s.quantidade_estoque ?? 0),
           0
         );
 
         // Capturas
         const somaCaptKg = captT.reduce(
-          (acc, c) => acc + Number(c.quantidade || 0),
+          (acc, c) => acc + Number(c.quantidade_estoque || 0),
           0
         );
 
