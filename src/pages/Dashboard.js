@@ -71,12 +71,14 @@ export default function Dashboard() {
   const [vendasLista, setVendasLista] = useState([]);
   const [mercadoriasLista, setMercadoriasLista] = useState([]);
   const [totalVendasPagasKg, setTotalVendasPagasKg] = useState(0);
+  const [totalVendasPagasMt, setTotalVendasPagasMt] = useState(0);
   const [totalDividaMT, setTotalDividaMT] = useState(0);
   const [totalMercadoriasKg, setTotalMercadoriasKg] = useState(0);
   const [totalCapturasKg, setTotalCapturasKg] = useState(0);
   const [ranking, setRanking] = useState([]);
   const [labelsVendas, setLabelsVendas] = useState([]);
   const [dadosVendasMT, setDadosVendasMT] = useState([]);
+  const [TVendaskg, setDadosTVendaskg] = useState([]);
 
   // --- HELPERS
   const formatNumber = (n) =>
@@ -251,18 +253,23 @@ export default function Dashboard() {
         let somaVendasPagasMT = 0;
         let somaVendasEmDividaKg = 0;
 
-        vendasT.forEach((v) => {
-          const q = Number(v.quantidade || 0);
-          const val = Number(v.valor_total || 0);
-          somaSaidasKgGlobal += q;
-          if (v.status_p === "Em_Divida") {
-            somaDividaMT += val;
-            somaVendasEmDividaKg += q;
-          } else {
-            somaVendasPagasKg += q;
-            somaVendasPagasMT += val;
-          }
+        vendasT.forEach((V) => {
+          V.itensVenda.forEach((v)=>{
+
+            const q = Number(v.quantidade || 0);
+            const val = Number(V.valor_total || 0);
+            somaSaidasKgGlobal += q;
+            if (v.status_p === "Em_Divida") {
+              somaDividaMT += val;
+              somaVendasEmDividaKg += q;
+            } else {
+              somaVendasPagasKg += q;
+              somaVendasPagasMT += val;
+            }
+          })
         });
+        console.log(vendasT)
+        setDadosTVendaskg(somaVendasEmDividaKg+somaVendasPagasKg)
 
         // Mercadorias (disponível)
         let somaMercKg = 0;
@@ -283,6 +290,7 @@ export default function Dashboard() {
         );
 
         setTotalVendasPagasKg(somaVendasPagasKg);
+        setTotalVendasPagasMt(somaVendasPagasMT);
         setTotalDividaMT(somaDividaMT);
         setTotalMercadoriasKg(somaMercKg);
         setTotalRequisicoesKg(Number(somaReqKg.toFixed(2)));
@@ -765,14 +773,14 @@ export default function Dashboard() {
           {/* KPI CARDS */}
           <div className="cards-grid">
             <KpiCard
-              title="Total Clientes"
-              value={formatNumber(cards[0] || 0)}
+              title="Total Saidas"
+              value={`${formatNumber( TVendaskg|| 0)} kg` }
               icon={<Users />}
               color="#4fc3f7"
             />
             <KpiCard
               title="Vendas Pagas"
-              value={`${formatNumber(totalVendasPagasKg || 0)} kg`}
+              value={`${formatNumber(totalVendasPagasMt || 0)} Mt`}
               icon={<TrendingUp />}
               color="#66bb6a"
             />

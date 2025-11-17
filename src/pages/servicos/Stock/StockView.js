@@ -151,8 +151,8 @@ export default function StockView() {
                 {listaFiltrada.length > 0 ? listaFiltrada.map((elemento, i) => (
                   <tr key={i}>
                     <td>{elemento.idstock}</td>
-                    <td>{elemento.quantidade_estoque}</td>
-                    <td>{elemento.quantidade}</td>
+                    <td>{elemento.quantidade_estoque.toFixed(2)}</td>
+                    <td>{elemento.quantidade.toFixed(2)}</td>
                     <td>{elemento.tipo}</td>
                     <td>{elemento.data}</td>
                     {permissao === "admin" && (
