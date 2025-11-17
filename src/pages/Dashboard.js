@@ -256,10 +256,10 @@ export default function Dashboard() {
         vendasT.forEach((V) => {
           V.itensVenda.forEach((v)=>{
 
-            const q = Number(v.quantidade || 0);
+            const q =  Number(v.quantidade || 0);
             const val = Number(V.valor_total || 0);
             somaSaidasKgGlobal += q;
-            if (v.status_p === "Em_Divida") {
+            if (V.status_p === "Em_Divida") {
               somaDividaMT += val;
               somaVendasEmDividaKg += q;
             } else {
