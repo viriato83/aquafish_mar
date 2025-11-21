@@ -33,47 +33,53 @@ const permissao= sessionStorage.getItem("cargo");
   const [dataInicial, setDataInicial] = useState("");
 const [dataFinal, setDataFinal] = useState("");
 
-  useEffect(() => {
-    // Inicializa as instâncias uma vez
-    msg.current = new Mensagem();
-    moda.current = new Modal();
+useEffect(() => {
+  async function carregarDados() {
+    setLoading(true);
+    try {
+      const repoStck = await repoStco.leitura();
+      const dadosModelo = await repositorio.leitura();
 
-    async function carregarDados() {
-      setLoading(true); // Exibir loading
-      try {
-        const repoStck = await repoStco.leitura();
-        const dadosModelo = await repositorio.leitura();
-        const dadosVendas= await repositoriovenda.leitura();
-       let valorTotalVendas=0;
-       let  quantidadeTotal=0;
-       let  quantidadeEst=0;
-        dadosModelo.forEach((e) => {
-    
-                if (!stockSelecionado|| (stockSelecionado && stockSelecionado == e.stock.idstock)) {
-                  quantidadeEst+=e.quantidade_est;
-                  quantidadeTotal += e.quantidade;
-                  valorTotalVendas += e.valor_total;
-                  }
-          
-            
+      // 1. Filtrar por data e por gaiola de uma vez
+      const filtrados = dadosModelo.filter((e) => {
+        const dataEntrada = new Date(e.data_entrada);
 
-        });
-       
-        const quantidadeTotalVendas = dadosModelo.reduce((acc, merc) => 
-          acc + merc.valor_total, 0);
-        setQuantidadeEst(quantidadeEst)
-        setModelo(dadosModelo);
-        setTotal(quantidadeTotal);
-        setQuantidadeTotal(valorTotalVendas);
-        setModelo2(repoStck)
-      } catch (erro) {
-        console.error("Erro ao carregar dados:", erro);
-      } finally {
-        setLoading(false); // Esconder loading
-      }
+        const dentroDoPeriodo =
+          (!dataInicial || dataEntrada >= new Date(dataInicial)) &&
+          (!dataFinal || dataEntrada <= new Date(dataFinal));
+
+        const matchGaiola =
+          !stockSelecionado || e.stock.idstock == stockSelecionado;
+
+        return dentroDoPeriodo && matchGaiola;
+      });
+
+      // 2. Calcular os totais com base APENAS nos dados filtrados
+      let somaQuantidade = 0;
+      let somaQuantidadeEst = 0;
+      let somaValorTotal = 0;
+
+      filtrados.forEach((e) => {
+        somaQuantidadeEst += Number(e.quantidade_est || 0);
+        somaQuantidade += Number(e.quantidade || 0);
+        somaValorTotal += Number(e.valor_total || 0);
+      });
+
+      setModelo(filtrados);               // 👈 agora modelo já vem filtrado
+      setQuantidadeEst(somaQuantidadeEst);
+      setTotal(somaQuantidade);           // total de kg disponíveis
+      setQuantidadeTotal(somaValorTotal); // total em dinheiro
+      setModelo2(repoStck);
+    } catch (erro) {
+      console.error("Erro ao carregar dados:", erro);
+    } finally {
+      setLoading(false);
     }
-    carregarDados();
-  }, [stockSelecionado]);
+  }
+
+  carregarDados();
+}, [stockSelecionado, dataInicial, dataFinal]);  // 👈 AGORA escuta as datas também
+
 
   // Função para exportar os dados para Excel
   const exportToExcel = () => {
