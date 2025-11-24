@@ -140,36 +140,46 @@ const confirmarPagamento = async () => {
   }, [stockSelecionado,mesSelecionado]);
 
   const exportarParaExcel = () => {
-    const dados = modelo.map((venda) => ({
-      ID: venda.idvendas,
-      Quantidade: venda.itensVenda.map(e=>e.quantidade) ,
-      "Valor Unitário":  venda.itensVenda.map(e=>e.valor_uni),
-      Data: venda.data,
-      "Valor Total": venda.valor_total,
-      Cliente: venda.cliente.nome,
-      "Mercadorias": venda.mercadorias.map((mercadoria) => `${mercadoria.idmercadoria} : ${mercadoria.nome}`).join(", "),
-      
-    }));
+    const dados = [];
   
-    // Adicionar linha com o total
+    modelo.forEach((venda) => {
+      venda.itensVenda.forEach((item, idx) => {
+        const mercadoria = venda.mercadorias[idx];
+  
+        dados.push({
+          ID: venda.idvendas,
+          Quantidade: item.quantidade,
+          "Valor Unitário": item.valor_uni,
+          Data: venda.data,
+          "Valor Total": item.quantidade * item.valor_uni,
+          Cliente: venda.cliente.nome,
+          Mercadoria: mercadoria
+            ? `${mercadoria.idmercadoria} : ${mercadoria.nome}`
+            : "",
+        });
+      });
+    });
+  
+    // Linha total pago
     dados.push({
       ID: "TOTAL",
-      Quantidade: total, // Adiciona o total de quantidades
-      "Valor Unitário": "", 
+      Quantidade: total,
+      "Valor Unitário": "",
       Data: "",
-      "Valor Total": quantidadeTotal, // Adiciona o valor total das vendas
+      "Valor Total": quantidadeTotal,
       Cliente: "",
-      "Mercadorias": "",
+      Mercadoria: "",
     });
-    // Adicionar linha com o total DIvidas
+  
+    // Linha total em dívida
     dados.push({
       ID: "TOTALDivida",
-      Quantidade: totalDivida, // Adiciona o total de quantidades
-      "Valor Unitário": "", 
+      Quantidade: totalDivida,
+      "Valor Unitário": "",
       Data: "",
-      "Valor Total": quantiDivida, // Adiciona o valor total das vendas
+      "Valor Total": quantiDivida,
       Cliente: "",
-      "Mercadorias": "",
+      Mercadoria: "",
     });
   
     const ws = XLSX.utils.json_to_sheet(dados);
@@ -179,6 +189,7 @@ const confirmarPagamento = async () => {
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, "relatorio_vendas.xlsx");
   };
+  
   
   async function pagar(id,id2){
     await repositorioClient.editar2(id,"Pago")
