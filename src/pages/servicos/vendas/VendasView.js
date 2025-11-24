@@ -142,8 +142,8 @@ const confirmarPagamento = async () => {
   const exportarParaExcel = () => {
     const dados = modelo.map((venda) => ({
       ID: venda.idvendas,
-      Quantidade: venda.quantidade,
-      "Valor Unitário": venda.valor_uni,
+      Quantidade: venda.itensVenda.map(e=>e.quantidade) ,
+      "Valor Unitário":  venda.itensVenda.map(e=>e.valor_uni),
       Data: venda.data,
       "Valor Total": venda.valor_total,
       Cliente: venda.cliente.nome,
