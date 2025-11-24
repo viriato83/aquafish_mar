@@ -453,13 +453,13 @@ const confirmarPagamento = async () => {
         </Link>
 
         {/* {Filtro} */}
-        <label>    Filtrar por Gaiola:</label>
+        <label>    Filtrar por Captura:</label>
          <img src=""></img>
           <select value={stockSelecionado} onChange={(e) => setLoteS(e.target.value)}>
-          <option>Selecione Uma Giola</option>
+          <option>Selecione Uma Captura</option>
             {modelo2.map((stock) => (
               <option key={stock.idstock} value={stock.idstock}>
-                Stock {stock.tipo}
+                Captura {stock.tipo}
               </option>
             ))}
           </select>

@@ -122,12 +122,12 @@ useEffect(() => {
         <Content>
           
           <h2 >Mercadorias </h2>
-          <label>    Filtrar por Gaiola:</label>
+          <label>    Filtrar por Captura:</label>
           <select value={stockSelecionado} onChange={(e) => setLoteS(Number(e.target.value))}>
-          <option>Selecione Uma Gaiola</option>
+          <option>Selecione Uma Captura</option>
             {modelo2.map((stock) => (
               <option key={stock.idstock} value={stock.idstock}>
-                Gaiola {stock.tipo}
+                Captura {stock.tipo}
               </option>
             ))}
           </select>
