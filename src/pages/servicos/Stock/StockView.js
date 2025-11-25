@@ -76,18 +76,18 @@ export default function StockView() {
   // Exportar Excel
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(
-      modelo.map((item) => ({
+      listaFiltrada.map((item) => ({
         ID: item.idstock,
-        Quantidade_disp: item.quantidade,
-        Quantidade: item.quantidade_estoque,
+        Quantidade_disp: item.quantidade.toFixed(2),
+        Quantidade: item.quantidade_estoque.toFixed(2),
         Tipo: item.tipo,
-        Mercadorias: item.mercadorias.map((merc) => `${merc.nome}`).join(", "),
-        Data:item.data
+        Data: item.data,
+    
       }))
     );
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Stock");
-    XLSX.writeFile(wb, "StockData.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "Requisicoes");
+    XLSX.writeFile(wb, "requisicoesData.xlsx");
   };
 
   return (

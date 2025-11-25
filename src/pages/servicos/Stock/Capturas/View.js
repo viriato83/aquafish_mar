@@ -24,27 +24,63 @@ export default function CapturasView() {
   const [loading, setLoading] = useState(false);
   let moda = new Modal();
   let msg = new mensagem();
+  const [dataInicio, setDataInicio] = useState("");
+  const [dataFim, setDataFim] = useState("");
+  
+  
+
+// Filtrar por nome da mercadoria
+const listaFiltrada = modelo.filter((item) => {
+  const passarFiltroTipo =
+    pesquisa.trim() === ""
+      ? true
+      : item.tipo.toLowerCase().includes(pesquisa.toLowerCase());
+
+  const dataItem = new Date(item.data);
+  const inicio = dataInicio ? new Date(dataInicio) : null;
+  const fim = dataFim ? new Date(dataFim) : null;
+
+  const passarFiltroData =
+    (!inicio || dataItem >= inicio) && (!fim || dataItem <= fim);
+
+  return passarFiltroTipo && passarFiltroData;
+});
 
   useEffect(() => {
+    const listaFiltrada = modelo.filter((item) => {
+  const passarFiltroTipo =
+    pesquisa.trim() === ""
+      ? true
+      : item.tipo.toLowerCase().includes(pesquisa.toLowerCase());
+
+  const dataItem = new Date(item.data);
+  const inicio = dataInicio ? new Date(dataInicio) : null;
+  const fim = dataFim ? new Date(dataFim) : null;
+
+  const passarFiltroData =
+    (!inicio || dataItem >= inicio) && (!fim || dataItem <= fim);
+
+  return passarFiltroTipo && passarFiltroData;
+});
     async function carregarDados() {
       setLoading(true);
       try {
         const dadosModelo = await repositorio.leitura();
 
-        // Cálculo dos totais
-        const somaQuantidade = dadosModelo.reduce(
-          (soma, item) => soma + Number(item.quantidade || 0),
-          0
-        );
+        // // Cálculo dos totais
+        // const somaQuantidade = listaFiltrada.reduce(
+        //   (soma, item) => soma + Number(item.quantidade || 0),
+        //   0
+        // );
 
-        const somaQuantidadeEstoque = dadosModelo.reduce(
-          (soma, item) => soma + Number(item.quantidade_estoque || 0),
-          0
-        );
+        // const somaQuantidadeEstoque = listaFiltrada.reduce(
+        //   (soma, item) => soma + Number(item.quantidade_estoque || 0),
+        //   0
+        // );
 
         setModelo(dadosModelo);
-        setTotalQuantidade(somaQuantidade);
-        setTotalEstoque(somaQuantidadeEstoque);
+        // setTotalQuantidade(somaQuantidade);
+        // setTotalEstoque(somaQuantidadeEstoque);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
       } finally {
@@ -53,43 +89,59 @@ export default function CapturasView() {
     }
     carregarDados();
   }, []);
-  const [dataInicio, setDataInicio] = useState("");
-  const [dataFim, setDataFim] = useState("");
+  useEffect(() => {
+    // recalcula a lista filtrada sempre que modelo/pesquisa/datas mudarem
+    const lista = modelo.filter((item) => {
+      const passarFiltroTipo =
+        pesquisa.trim() === ""
+          ? true
+          : item.tipo.toLowerCase().includes(pesquisa.toLowerCase());
   
-  // Filtrar por nome da mercadoria
-  const listaFiltrada = modelo.filter((item) => {
-    const passarFiltroTipo =
-      pesquisa.trim() === ""
-        ? true
-        : item.tipo.toLowerCase().includes(pesquisa.toLowerCase());
+      const dataItem = new Date(item.data);
+      const inicio = dataInicio ? new Date(dataInicio) : null;
+      const fim = dataFim ? new Date(dataFim) : null;
   
-    const dataItem = new Date(item.data);
-    const inicio = dataInicio ? new Date(dataInicio) : null;
-    const fim = dataFim ? new Date(dataFim) : null;
+      const passarFiltroData =
+        (!inicio || dataItem >= inicio) && (!fim || dataItem <= fim);
   
-    const passarFiltroData =
-      (!inicio || dataItem >= inicio) && (!fim || dataItem <= fim);
+      return passarFiltroTipo && passarFiltroData;
+    });
   
-    return passarFiltroTipo && passarFiltroData;
-  });
+    // se quiseres continuar a usar listaFiltrada no JSX,
+    // podes guardar em estado também:
+    // setListaFiltrada(lista);
+  
+    const somaQuantidade = lista.reduce(
+      (soma, item) => soma + Number(item.quantidade || 0),
+      0
+    );
+  
+    const somaQuantidadeEstoque = lista.reduce(
+      (soma, item) => soma + Number(item.quantidade_estoque || 0),
+      0
+    );
+  
+    setTotalQuantidade(somaQuantidade);
+    setTotalEstoque(somaQuantidadeEstoque);
+  }, [modelo, pesquisa, dataInicio, dataFim]);
   
 
   // Exportar Excel
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(
-      modelo.map((item) => ({
+      listaFiltrada.map((item) => ({
         ID: item.idstock,
-        Quantidade_disp: item.quantidade,
-        Quantidade: item.quantidade_estoque,
+        Quantidade_disp: item.quantidade.toFixed(2),
+        Quantidade: item.quantidade_estoque.toFixed(2),
         Tipo: item.tipo,
         Origem:item.origem,
-        Mercadorias: item.mercadorias.map((merc) => `${merc.nome}`).join(", "),
-        Data:item.data
+        Data:item.data,
+
       }))
     );
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Stock");
-    XLSX.writeFile(wb, "StockData.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "Capturas");
+    XLSX.writeFile(wb, "CapturasData.xlsx");
   };
 
   return (
